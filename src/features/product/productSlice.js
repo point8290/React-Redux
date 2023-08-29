@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import api from "../../api/product";
 
 const initialState = {
   loading: false,
   products: [],
   error: "",
 };
-
-export const productSlice = createSlice({
+const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
@@ -20,7 +20,7 @@ export const productSlice = createSlice({
     productRequestSuccess: (state, action) => {
       state.loading = false;
       state.error = "";
-      state.products.concat(action.payload);
+      state.products = action.payload;
     },
 
     productRequestFailure: (state, action) => {
@@ -29,8 +29,21 @@ export const productSlice = createSlice({
     },
   },
 });
+export default productSlice.reducer;
 
 export const { productRequest, productRequestFailure, productRequestSuccess } =
   productSlice.actions;
 
-export default productSlice.reducer;
+// export default productSlice.reducer;
+
+export const getProductList = function () {
+  return async (dispatch, getState) => {
+    dispatch(productRequest(true));
+    const response = await api.get("/", {});
+    if (response.error) {
+      dispatch(productRequestFailure(response.error));
+    } else {
+      dispatch(productRequestSuccess(response.data));
+    }
+  };
+};

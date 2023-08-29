@@ -1,27 +1,29 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  productRequest,
-  productRequestFailure,
-  productRequestSuccess,
-} from "./productSlice";
-import api from "../../api/product";
+import ProductCard from "../../wrapper/ProductCard/ProductCard";
+import { getProductList } from "./productSlice";
+import styles from "./ProductList.module.css";
 const ProductList = (props) => {
+  const productStore = useSelector((state) => state.product);
   const dispatch = useDispatch();
-  const productStore = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(productRequest(true));
-    api
-      .get("/", {})
-      .then((res) => {
-        dispatch(productRequestSuccess(res.json()));
-      })
-      .catch((error) => {
-        dispatch(productRequestFailure(error));
-      });
+    dispatch(getProductList());
   }, []);
-  return <div>ProductList</div>;
+
+  return (
+    <div>
+      {productStore && productStore.products ? (
+        <div className={styles.productList}>
+          {productStore.products.map((product) => {
+            return <ProductCard key={product.id} product={product} />;
+          })}
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
+  );
 };
 
 export default ProductList;
