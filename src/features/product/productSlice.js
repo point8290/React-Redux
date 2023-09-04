@@ -20,7 +20,9 @@ const productSlice = createSlice({
     productRequestSuccess: (state, action) => {
       state.loading = false;
       state.error = "";
-      state.products = action.payload;
+      action.payload.forEach((product) => {
+        state.products.push(product);
+      });
     },
 
     productRequestFailure: (state, action) => {
@@ -29,12 +31,11 @@ const productSlice = createSlice({
     },
   },
 });
+
 export default productSlice.reducer;
 
 export const { productRequest, productRequestFailure, productRequestSuccess } =
   productSlice.actions;
-
-// export default productSlice.reducer;
 
 export const getProductList = function () {
   return async (dispatch, getState) => {

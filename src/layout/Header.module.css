@@ -1,0 +1,10 @@
+.navbarCollapse {
+  flex-grow: 0 !important;
+}
+.searchBarForm {
+  flex: 1;
+}
+.searchBarWidth {
+  min-width: 10rem;
+  width: 80%;
+}
