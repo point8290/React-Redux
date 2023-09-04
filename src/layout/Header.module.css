@@ -1,3 +1,10 @@
+.brandTitle {
+  font-weight: bold;
+}
+.headerBackground {
+  background-color: #e6e5e5;
+  margin-bottom: 1rem;
+}
 .navbarCollapse {
   flex-grow: 0 !important;
 }

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 function ProductCard(props) {
   console.log(props);
 
-  const stylesForProduct = `${styles.productCardBorder} p-2 m-2`;
+  const stylesForProduct = `${styles.productCardBorder} ${styles.productCardBackground} p-2 m-2`;
   return (
     <Card style={{ width: "18rem" }} className={stylesForProduct}>
       <Card.Img
