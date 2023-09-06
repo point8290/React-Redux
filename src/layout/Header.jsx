@@ -4,8 +4,12 @@ import { Nav } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useSelector } from "react-redux";
 import styles from "./Header.module.css";
-function Header() {
+import { AiOutlineShoppingCart } from "react-icons/ai";
+function Header(props) {
+  const cart = useSelector((state) => state.cart);
+
   return (
     <Container className={styles.headerBackground}>
       <Navbar expand="lg" className="px-2 my-1">
@@ -33,6 +37,9 @@ function Header() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/login"> Login </Nav.Link>
             <Nav.Link href="/register"> Register </Nav.Link>
+            <Nav.Link href="/cart">
+              <AiOutlineShoppingCart /> <span>{cart.cartCount}</span>
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
