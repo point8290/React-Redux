@@ -2,9 +2,7 @@ import Card from "react-bootstrap/Card";
 import styles from "./ProductCard.module.css";
 import Button from "react-bootstrap/Button";
 function ProductCard(props) {
-  console.log(props);
-
-  const stylesForProduct = `${styles.productCardBorder} ${styles.productCardBackground} p-2 m-2`;
+  const stylesForProduct = `${styles.productCard}  p-2 m-2`;
   return (
     <Card style={{ width: "18rem" }} className={stylesForProduct}>
       <Card.Img
@@ -16,15 +14,20 @@ function ProductCard(props) {
         <Card.Title className={styles.wrapToTwoLines}>
           {props.product.title}
         </Card.Title>
+        <div className={styles.ratingCountAndPrice}>
+          <div className="px-1">${props.product.price}</div>
+          <div className="px-1">{props.product.rating.rate} </div>
+          <div className="px-1">{props.product.rating.count}</div>
+        </div>
         <Card.Text className={styles.wrapToThreeLines}>
           {props.product.description}
         </Card.Text>
       </Card.Body>
       <div className={styles.buttonContainer}>
-        <Button variant="primary" className="p-2 m-2">
+        <Button variant="primary" className="px-2 py-1 m-2">
           Add to Cart
         </Button>
-        <Button variant="success" className="p-2 m-2">
+        <Button variant="success" className="px-2 py-1 m-2">
           Buy Now
         </Button>
       </div>

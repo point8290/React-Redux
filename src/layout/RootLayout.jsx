@@ -1,19 +1,23 @@
 import React from "react";
 import Header from "./Header";
+import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./../store";
+import styles from "./RootLayout.module.css";
+import { Container } from "react-bootstrap";
 
 function RootLayout() {
   return (
-    <Provider store={store}>
-      <div>
-        <Header />
-        <main>
+    <div>
+      <Header />
+      <main className={styles.mainContainer}>
+        <Container className={styles.sideBar}>
+          <Sidebar />
+        </Container>
+        <Container className={styles.outletContainer}>
           <Outlet />
-        </main>
-      </div>
-    </Provider>
+        </Container>
+      </main>
+    </div>
   );
 }
 

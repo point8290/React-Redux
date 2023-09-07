@@ -1,0 +1,15 @@
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+}
+.sideBar {
+  border-radius: 2px;
+  width: 20%;
+  margin: 10px;
+  background: #dba39a;
+  height: 100vh;
+}
+.outletContainer {
+  width: 80%;
+  background: #e1d7c6;
+}

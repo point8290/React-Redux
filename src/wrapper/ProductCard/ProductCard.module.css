@@ -16,19 +16,18 @@
 }
 .imageBox {
   object-fit: contain;
-  height: 7rem;
-  width: 14rem;
+  height: 15rem;
+  width: 15rem;
 }
 .productCardBody {
-  font-family: "Roboto";
+  font-family: "Calibari";
 }
-.productCardBorder {
+.productCard {
   border-radius: 5px;
-  box-shadow: 0px 2px rgb(241, 240, 237);
 }
 .buttonContainer {
   text-align: center;
 }
-.productCardBackground {
-  box-shadow: 0px 0px 1px 2px #e6e6e6;
+.ratingCountAndPrice {
+  display: flex;
 }

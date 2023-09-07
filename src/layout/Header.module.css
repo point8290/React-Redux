@@ -1,8 +1,10 @@
 .brandTitle {
   font-weight: bold;
+  font-family: Tahoma, sans-serif;
+  cursor: pointer;
 }
 .headerBackground {
-  background-color: #e6e5e5;
+  background-color: #dba39a;
   margin-bottom: 1rem;
 }
 .navbarCollapse {
@@ -14,4 +16,24 @@
 .searchBarWidth {
   min-width: 10rem;
   width: 80%;
+}
+.hide {
+  display: none;
+}
+.buttonItem {
+  height: 2rem;
+}
+
+.linksContainer {
+  align-items: baseline;
+}
+.buttonBackground {
+  background-color: transparent;
+  border: none;
+  padding: 0px 8px;
+  margin: 0px 4px;
+}
+.buttonBackground:hover,
+.buttonBackground:active {
+  color: black;
 }
