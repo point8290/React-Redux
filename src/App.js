@@ -7,7 +7,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./layout/RootLayout";
@@ -25,9 +25,11 @@ function App() {
       if (user) {
         dispatch(setAccessToken(user.accessToken));
         dispatch(setIsUserLoggedIn(true));
+        localStorage.setItem("isUserLoggedIn", true);
       } else {
         dispatch(setAccessToken(null));
         dispatch(setIsUserLoggedIn(false));
+        localStorage.setItem("isUserLoggedIn", false);
       }
     });
   });

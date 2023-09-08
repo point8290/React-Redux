@@ -28,6 +28,7 @@ function Register() {
 
         dispatch(setAccessToken(token));
         dispatch(setIsUserLoggedIn(true));
+        localStorage.setItem("isUserLoggedIn", true);
 
         setEmail("");
         setPassword("");
@@ -42,6 +43,7 @@ function Register() {
 
         dispatch(setAccessToken(null));
         dispatch(setIsUserLoggedIn(false));
+        localStorage.setItem("isUserLoggedIn", false);
       });
   };
   const onRegister = (e) => {
@@ -52,6 +54,7 @@ function Register() {
 
         setAccessToken(response.user.accessToken);
         setIsUserLoggedIn(true);
+        localStorage.setItem("isUserLoggedIn", true);
 
         setName("");
         setEmail("");
@@ -64,6 +67,7 @@ function Register() {
         console.log("error", error);
         setAccessToken(null);
         setIsUserLoggedIn(false);
+        localStorage.setItem("isUserLoggedIn", false);
       });
   };
   return (

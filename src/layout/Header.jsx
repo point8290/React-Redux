@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./Header.module.css";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setAccessToken, setIsUserLoggedIn } from "../features/user/userSlice";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 function Header(props) {
@@ -21,6 +21,8 @@ function Header(props) {
       .then((response) => {
         dispatch(setAccessToken(null));
         dispatch(setIsUserLoggedIn(false));
+        localStorage.setItem("isUserLoggedIn", false);
+
         navigate("/login");
       })
       .catch((error) => {

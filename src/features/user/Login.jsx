@@ -28,6 +28,7 @@ function Login(props) {
 
         dispatch(setAccessToken(userCreds.user.accessToken));
         dispatch(setIsUserLoggedIn(true));
+        localStorage.setItem("isUserLoggedIn", true);
 
         setEmail("");
         setPassword("");
@@ -38,6 +39,7 @@ function Login(props) {
         console.log("error", error);
         dispatch(setAccessToken(null));
         dispatch(setIsUserLoggedIn(false));
+        localStorage.setItem("isUserLoggedIn", false);
       });
   };
 
@@ -51,6 +53,7 @@ function Login(props) {
 
         dispatch(setAccessToken(token));
         dispatch(setIsUserLoggedIn(true));
+        localStorage.setItem("isUserLoggedIn", true);
 
         setEmail("");
         setPassword("");
@@ -65,6 +68,7 @@ function Login(props) {
 
         dispatch(setAccessToken(null));
         dispatch(setIsUserLoggedIn(false));
+        localStorage.setItem("isUserLoggedIn", false);
       });
   };
 
