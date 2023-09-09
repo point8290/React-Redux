@@ -5,8 +5,7 @@
   margin-top: 0.4rem;
 }
 .mainContainer {
-  padding: 1rem;
-  position: relative;
+  padding: 5px;
 }
 .button {
   width: 100%;
@@ -18,7 +17,5 @@
   padding-left: 0.3rem;
 }
 .registerForm {
-  position: absolute;
-  top: 10%;
   width: 100%;
 }

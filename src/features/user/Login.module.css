@@ -1,6 +1,5 @@
 .mainContainer {
   padding: 1rem;
-  position: relative;
 }
 .buttons {
   display: flex;
@@ -18,7 +17,5 @@
   padding-left: 0.3rem;
 }
 .loginForm {
-  position: absolute;
-  top: 10%;
   width: 100%;
 }
