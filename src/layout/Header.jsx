@@ -36,8 +36,8 @@ function Header(props) {
     : styles.buttonItem + " px-2 py-0";
 
   return (
-    <Container className={styles.headerBackground}>
-      <Navbar expand="lg" className="px-2 my-1">
+    <div className={styles.headerBackground}>
+      <Navbar expand="lg" className="px-2">
         <Navbar.Brand
           className={styles.brandTitle}
           onClick={(e) => {
@@ -106,7 +106,7 @@ function Header(props) {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-    </Container>
+    </div>
   );
 }
 

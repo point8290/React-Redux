@@ -2,5 +2,6 @@ body {
   margin: 0px;
   padding: 0px;
   font-family: "Roboto";
-  background: #e1d7c6;
+  height: 100dvh;
+  width: 100dvw;
 }

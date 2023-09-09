@@ -1,6 +1,6 @@
 .mainContainer {
   padding: 1rem;
-  background-color: #fff;
+  position: relative;
 }
 .buttons {
   display: flex;
@@ -9,11 +9,16 @@
   margin-top: 0.4rem;
 }
 .button {
-  background-color: #fff;
+  width: 100%;
   border: 1px solid #262626;
   display: flex;
   align-items: center;
 }
 .googleText {
   padding-left: 0.3rem;
+}
+.loginForm {
+  position: absolute;
+  top: 10%;
+  width: 100%;
 }

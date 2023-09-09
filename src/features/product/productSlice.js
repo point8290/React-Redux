@@ -38,13 +38,15 @@ export const { productRequest, productRequestFailure, productRequestSuccess } =
   productSlice.actions;
 
 export const getProductList = function () {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     dispatch(productRequest(true));
-    const response = await api.get("/", {});
-    if (response.error) {
-      dispatch(productRequestFailure(response.error));
-    } else {
-      dispatch(productRequestSuccess(response.data));
-    }
+    api
+      .get("/", {})
+      .then((response) => {
+        dispatch(productRequestSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(productRequestFailure(error));
+      });
   };
 };
