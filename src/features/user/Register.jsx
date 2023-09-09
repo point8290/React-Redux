@@ -98,7 +98,7 @@ function Register() {
   return (
     <Container
       className={styles.mainContainer}
-      style={{ width: "30rem", height: "100%" }}
+      style={{ width: "100%", maxWidth: "400px", height: "100%" }}
     >
       {showErrorToast && (
         <ToastMessages
