@@ -5,9 +5,12 @@
 }
 .sideBar {
   width: 20%;
-  background: #dba39a;
+  margin-top: 20px;
+  background: #f1f3f4;
   height: 100vh;
 }
 .outletContainer {
+  margin: 20px 30px;
+  background: #f1f3f4;
   width: 80%;
 }

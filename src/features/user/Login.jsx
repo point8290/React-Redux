@@ -3,134 +3,319 @@ import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FcGoogle } from "react-icons/fc";
-
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import { loginWithGoogle } from "./googleAuthentication";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styles from "./Login.module.css";
-import { auth, provider } from "../../firebase";
+import api from "../../api/user";
+import { setAccessToken, setIsUserLoggedIn } from "./userSlice";
+import { useContext } from "react";
+import { AppContext } from "../../context/AppContextProvider";
 import {
   signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
 } from "firebase/auth";
-import { setAccessToken, setIsUserLoggedIn } from "./userSlice";
+import { auth } from "../../firebase";
+
 function Login(props) {
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-
+  const [otp, setOtp] = useState("");
+  const [loginWithEmail, setLoginWithEmail] = useState(true);
+  const [finalResult, setFinalResult] = useState(null);
+  const [showVerificationCodeField, setShowVerificationCodeField] =
+    useState(false);
+  const [showPasswordField, setShowPasswordField] = useState(true);
+  const globalContext = useContext(AppContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const onLogin = (e) => {
-    e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCreds) => {
-        console.log("userCreds", userCreds);
-
-        dispatch(setAccessToken(userCreds.user.accessToken));
-        dispatch(setIsUserLoggedIn(true));
-        localStorage.setItem("isUserLoggedIn", true);
-
-        setEmail("");
-        setPassword("");
-
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log("error", error);
-        dispatch(setAccessToken(null));
-        dispatch(setIsUserLoggedIn(false));
-        localStorage.setItem("isUserLoggedIn", false);
-      });
+  const loginWithGoogleCallback = (token) => {
+    dispatch(setAccessToken(token));
+    dispatch(setIsUserLoggedIn(true));
+    localStorage.setItem("isUserLoggedIn", true);
+    globalContext.showToastMessage(
+      true,
+      "Signed In Successfully !!",
+      "success",
+      true,
+      3000,
+      true
+    );
+    navigate("/");
   };
 
-  const onLoginWithGoogle = (e) => {
-    signInWithPopup(auth, provider)
+  const setUpRecaptcha = () => {
+    const recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        callback: (response) => {
+          recaptchaVerifier.clear();
+        },
+      }
+    );
+
+    recaptchaVerifier.render();
+
+    return signInWithPhoneNumber(auth, phone, recaptchaVerifier);
+  };
+  const ValidateOtp = () => {
+    if (otp === null || finalResult === null) return;
+
+    finalResult
+      .confirm(otp)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const user = result.user;
-
-        dispatch(setAccessToken(token));
-        dispatch(setIsUserLoggedIn(true));
-        localStorage.setItem("isUserLoggedIn", true);
-
-        setEmail("");
-        setPassword("");
-
-        navigate("/");
+        console.log(result);
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-
-        dispatch(setAccessToken(null));
-        dispatch(setIsUserLoggedIn(false));
-        localStorage.setItem("isUserLoggedIn", false);
+      .catch((err) => {
+        globalContext.showToastMessage(
+          true,
+          "Wrong OTP",
+          "error",
+          true,
+          3000,
+          true
+        );
+      })
+      .finally(() => {
+        setFinalResult(null);
       });
+  };
+  const onSendOTP = (e) => {
+    if (phone == null || phone === "") {
+      globalContext.showToastMessage(
+        true,
+        "Enter valid phone number",
+        "error",
+        true,
+        3000,
+        true
+      );
+      return;
+    }
+    try {
+      const singInWithPhoneMethod = setUpRecaptcha(phone);
+      singInWithPhoneMethod
+        .then((confirmationResult) => {
+          globalContext.showToastMessage(
+            true,
+            "OTP sent",
+            "success",
+            true,
+            3000,
+            true
+          );
+          setFinalResult(confirmationResult);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } catch (error) {
+      globalContext.showToastMessage(
+        true,
+        error.message,
+        "error",
+        true,
+        3000,
+        true
+      );
+    }
+  };
+
+  const onLogin = (e) => {
+    e.preventDefault();
+    try {
+      if (loginWithEmail) {
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            user.getIdToken().then((idToken) => {
+              api
+                .post("/login", { idToken })
+                .then((response) => {
+                  console.log("response", response);
+
+                  dispatch(setAccessToken(user.accessToken));
+                  dispatch(setIsUserLoggedIn(true));
+                  localStorage.setItem("isUserLoggedIn", true);
+
+                  setEmail("");
+                  setPassword("");
+
+                  globalContext.showToastMessage(
+                    true,
+                    "Signed In Successfully !!",
+                    "success",
+                    true,
+                    3000,
+                    true
+                  );
+                  navigate("/");
+                })
+                .catch((error) => {
+                  console.log("error", error);
+                  dispatch(setAccessToken(null));
+                  dispatch(setIsUserLoggedIn(false));
+                  localStorage.setItem("isUserLoggedIn", false);
+                  globalContext.showToastMessage(
+                    true,
+                    "Error while signing in!!",
+                    "error",
+                    true,
+                    3000,
+                    true
+                  );
+                });
+            });
+          })
+          .catch((error) => {
+            // Handle sign-in errors
+            console.error("Sign-in error:", error);
+          });
+      }
+    } catch (error) {
+      console.log("error", error);
+      dispatch(setAccessToken(null));
+      dispatch(setIsUserLoggedIn(false));
+      localStorage.setItem("isUserLoggedIn", false);
+    }
   };
 
   return (
-    <Container
-      className={styles.mainContainer}
-      style={{ width: "100%", maxWidth: "400px", height: "100%" }}
-    >
+    <Container className={styles.mainContainer}>
       <div className={styles.loginForm}>
-        <div style={{ textAlign: "center", width: "100%" }}>
-          <Button
-            variant=""
-            className={`px-2 py-1 ${styles.button}`}
-            onClick={onLoginWithGoogle}
-          >
-            <div style={{ margin: "auto" }}>
-              <FcGoogle />
-              <span className={styles.googleText}> Login with Google</span>
-            </div>
-          </Button>
-        </div>
-        <div style={{ textAlign: "center", margin: "10px 0px" }}>
-          <strong> Or </strong>
-        </div>
         <Form onSubmit={onLogin}>
           <div
             style={{
               textAlign: "center",
               margin: "10px 0px",
               color: "#262626",
+              paddingBottom: "5px",
             }}
           >
-            <strong>Login</strong>
+            <strong style={{ fontSize: "25px" }}>Login</strong>
           </div>
-          <Form.Group className="mb-3" controlId="userEmail">
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </Form.Group>
+          {loginWithEmail ? (
+            <Form.Group controlId="userEmail">
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </Form.Group>
+          ) : (
+            <Form.Group controlId="userPhone">
+              <PhoneInput
+                placeholder="Enter phone number"
+                value={phone}
+                defaultCountry="IN"
+                onChange={(value) => {
+                  setPhone(value);
+                }}
+              />
+            </Form.Group>
+          )}
+          {loginWithEmail ? (
+            <div style={{ textAlign: "end", paddingTop: "5px" }}>
+              <Button
+                variant=""
+                onClick={(e) => {
+                  setLoginWithEmail(!loginWithEmail);
+                  setShowVerificationCodeField(true);
+                  setShowPasswordField(false);
+                }}
+              >
+                Login with phone
+              </Button>
+            </div>
+          ) : (
+            <div style={{ textAlign: "end", paddingTop: "5px" }}>
+              <Button
+                variant=""
+                onClick={(e) => {
+                  onSendOTP();
+                }}
+              >
+                Send OTP
+              </Button>
+              <Button
+                variant=""
+                onClick={(e) => {
+                  setLoginWithEmail(!loginWithEmail);
+                  setShowVerificationCodeField(false);
+                  setShowPasswordField(true);
+                }}
+              >
+                Login with email
+              </Button>
+            </div>
+          )}
+          <div id="recaptcha-container" />
+          {showPasswordField && (
+            <Form.Group className="my-3" controlId="userPassword">
+              <Form.Control
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </Form.Group>
+          )}
 
-          <Form.Group className="mb-3" controlId="userPassword">
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-          </Form.Group>
+          {showVerificationCodeField && (
+            <Form.Group className="my-3" controlId="verificationCode">
+              <Form.Control
+                type="number"
+                placeholder="Enter otp"
+                value={otp}
+                onChange={(e) => {
+                  setOtp(e.target.value);
+                }}
+              />
+            </Form.Group>
+          )}
+
           <div className={styles.buttons}>
+            {loginWithEmail ? (
+              <Button
+                variant="primary"
+                className={`px-2 py-1 ${styles.button}`}
+                type="submit"
+              >
+                <div style={{ margin: "auto" }}>Login</div>
+              </Button>
+            ) : (
+              <Button
+                onClick={ValidateOtp}
+                variant="primary"
+                className={`px-2 py-1 ${styles.button}`}
+              >
+                <div style={{ margin: "auto" }}>Verify OTP</div>
+              </Button>
+            )}
+          </div>
+          <hr />
+          <div style={{ textAlign: "center", width: "100%" }}>
             <Button
               variant=""
               className={`px-2 py-1 ${styles.button}`}
-              type="submit"
+              onClick={(e) => {
+                loginWithGoogle(loginWithGoogleCallback);
+              }}
             >
-              <div style={{ margin: "auto" }}>Login</div>
+              <div className={styles.loginWithGoogleButton}>
+                <FcGoogle size={24} />
+                <span className={styles.googleText}> Login with google</span>
+              </div>
             </Button>
           </div>
         </Form>

@@ -5,7 +5,10 @@
   margin-top: 0.4rem;
 }
 .mainContainer {
-  padding: 5px;
+  width: 100%;
+  max-width: 360px;
+  height: 100%;
+  margin-top: 10vh;
 }
 .button {
   width: 100%;
@@ -18,4 +21,14 @@
 }
 .registerForm {
   width: 100%;
+}
+.loginWithGoogleButton {
+  margin: auto;
+  display: flex;
+}
+.registerHeading {
+  text-align: center;
+  margin: 10px 0px;
+  color: #262626;
+  padding-bottom: 5px;
 }

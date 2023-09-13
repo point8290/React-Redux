@@ -21,7 +21,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(setAccessToken(user.accessToken));
         dispatch(setIsUserLoggedIn(true));
@@ -32,6 +32,7 @@ function App() {
         localStorage.setItem("isUserLoggedIn", false);
       }
     });
+    return unsubscribe();
   });
   const router = createBrowserRouter(
     createRoutesFromElements(

@@ -4,7 +4,7 @@
   cursor: pointer;
 }
 .headerBackground {
-  background-color: #dba39a;
+  background-color: #f1f3f4;
 }
 .navbarCollapse {
   flex-grow: 0 !important;
@@ -27,7 +27,7 @@
   align-items: baseline;
 }
 .buttonBackground {
-  background-color: transparent;
+  color: black;
   border: none;
   padding: 0px 8px;
   margin: 0px 4px;

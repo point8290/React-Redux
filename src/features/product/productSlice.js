@@ -46,7 +46,7 @@ export const getProductList = function () {
         dispatch(productRequestSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(productRequestFailure(error));
+        dispatch(productRequestFailure(error.message));
       });
   };
 };
