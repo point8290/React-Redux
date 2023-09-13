@@ -12,6 +12,9 @@ function AppContextProvider({ children }) {
     delay: 3000,
     showAnimation: true,
   });
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(
+    localStorage.getItem("isUserLoggedIn")?.toLowerCase() === "true"
+  );
   const showToastMessage = function (
     show,
     msg,
@@ -42,7 +45,9 @@ function AppContextProvider({ children }) {
   const globalContext = {
     showToastMessage,
     toastObject,
+    setIsUserLoggedIn,
     setToastObject,
+    isUserLoggedIn,
   };
   return (
     <AppContext.Provider value={globalContext}>{children}</AppContext.Provider>

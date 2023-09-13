@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styles from "./Login.module.css";
 import api from "../../api/user";
-import { setAccessToken, setIsUserLoggedIn } from "./userSlice";
+import { setAccessToken } from "./userSlice";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContextProvider";
 import {
@@ -35,8 +35,9 @@ function Login(props) {
   const navigate = useNavigate();
   const loginWithGoogleCallback = (token) => {
     dispatch(setAccessToken(token));
-    dispatch(setIsUserLoggedIn(true));
     localStorage.setItem("isUserLoggedIn", true);
+    globalContext.setIsUserLoggedIn(true);
+
     globalContext.showToastMessage(
       true,
       "Signed In Successfully !!",
@@ -140,8 +141,8 @@ function Login(props) {
                   console.log("response", response);
 
                   dispatch(setAccessToken(user.accessToken));
-                  dispatch(setIsUserLoggedIn(true));
                   localStorage.setItem("isUserLoggedIn", true);
+                  globalContext.setIsUserLoggedIn(true);
 
                   setEmail("");
                   setPassword("");
@@ -159,8 +160,9 @@ function Login(props) {
                 .catch((error) => {
                   console.log("error", error);
                   dispatch(setAccessToken(null));
-                  dispatch(setIsUserLoggedIn(false));
                   localStorage.setItem("isUserLoggedIn", false);
+                  globalContext.setIsUserLoggedIn(false);
+
                   globalContext.showToastMessage(
                     true,
                     "Error while signing in!!",
@@ -180,8 +182,8 @@ function Login(props) {
     } catch (error) {
       console.log("error", error);
       dispatch(setAccessToken(null));
-      dispatch(setIsUserLoggedIn(false));
       localStorage.setItem("isUserLoggedIn", false);
+      globalContext.setIsUserLoggedIn(false);
     }
   };
 

@@ -7,33 +7,11 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { auth } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import RootLayout from "./layout/RootLayout";
 import Login from "./features/user/Login";
 import Register from "./features/user/Register";
 import Cart from "./features/cart/Cart";
-import { useEffect } from "react";
-import { setAccessToken, setIsUserLoggedIn } from "./features/user/userSlice";
-
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(setAccessToken(user.accessToken));
-        dispatch(setIsUserLoggedIn(true));
-        localStorage.setItem("isUserLoggedIn", true);
-      } else {
-        dispatch(setAccessToken(null));
-        dispatch(setIsUserLoggedIn(false));
-        localStorage.setItem("isUserLoggedIn", false);
-      }
-    });
-    return unsubscribe();
-  });
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route to="/" element={<RootLayout />}>

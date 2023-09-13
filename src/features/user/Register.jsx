@@ -10,7 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { loginWithGoogle } from "./googleAuthentication";
 import { useDispatch } from "react-redux";
-import { setAccessToken, setIsUserLoggedIn } from "./userSlice";
+import { setAccessToken } from "./userSlice";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -21,9 +21,16 @@ function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginWithGoogleCallback = (token) => {
-    dispatch(setAccessToken(token));
-    dispatch(setIsUserLoggedIn(true));
-    localStorage.setItem("isUserLoggedIn", true);
+    if (token) {
+      dispatch(setAccessToken(token));
+      localStorage.setItem("isUserLoggedIn", true);
+      globalContext.setIsUserLoggedIn(true);
+    } else {
+      dispatch(setAccessToken(null));
+      localStorage.setItem("isUserLoggedIn", false);
+      globalContext.setIsUserLoggedIn(false);
+    }
+
     globalContext.showToastMessage(
       true,
       "Signed In Successfully !!",

@@ -1,5 +1,5 @@
 import Navbar from "react-bootstrap/Navbar";
-import { Button, Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Nav } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -8,20 +8,23 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./Header.module.css";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { setAccessToken, setIsUserLoggedIn } from "../features/user/userSlice";
+import { AppContext } from "../context/AppContextProvider";
+import { setAccessToken } from "../features/user/userSlice";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 function Header(props) {
   const cart = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const globalContext = useContext(AppContext);
   const dispatch = useDispatch();
   const onLogout = () => {
     signOut(auth)
       .then((response) => {
+        console.log("response", response);
         dispatch(setAccessToken(null));
-        dispatch(setIsUserLoggedIn(false));
         localStorage.setItem("isUserLoggedIn", false);
+        globalContext.setIsUserLoggedIn(false);
 
         navigate("/login");
       })
@@ -29,9 +32,10 @@ function Header(props) {
         console.log("error", error);
       });
   };
-  const hideLoginButton = user.isUserLoggedIn ? styles.hide : "";
-  const hideRegisterButton = user.isUserLoggedIn ? styles.hide : "";
-  const hideLogoutButton = !user.isUserLoggedIn
+
+  const hideLoginButton = globalContext.isUserLoggedIn ? styles.hide : "";
+  const hideRegisterButton = globalContext.isUserLoggedIn ? styles.hide : "";
+  const hideLogoutButton = !globalContext.isUserLoggedIn
     ? styles.hide
     : styles.buttonItem + " px-2 py-0";
 
