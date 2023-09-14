@@ -12,7 +12,9 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContextProvider";
 import { setAccessToken } from "../features/user/userSlice";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
+import { FaFirstOrder } from "react-icons/fa";
+
 function Header(props) {
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
@@ -32,12 +34,13 @@ function Header(props) {
         console.log("error", error);
       });
   };
-
+  const onProfile = () => {};
   const hideLoginButton = globalContext.isUserLoggedIn ? styles.hide : "";
   const hideRegisterButton = globalContext.isUserLoggedIn ? styles.hide : "";
-  const hideLogoutButton = !globalContext.isUserLoggedIn
+
+  const showAfterLoginButtons = !globalContext.isUserLoggedIn
     ? styles.hide
-    : styles.buttonItem + " px-2 py-0";
+    : styles.buttonItem + " px-1 mx-1 py-0";
 
   return (
     <div className={styles.headerBackground}>
@@ -48,7 +51,7 @@ function Header(props) {
             navigate("/");
           }}
         >
-          Clothing Merchandise by Krishna
+          Bourbon Cafe
         </Navbar.Brand>
 
         <Form className={styles.searchBarForm}>
@@ -56,7 +59,7 @@ function Header(props) {
             <Col xs="auto" className={styles.searchBarWidth}>
               <Form.Control
                 type="text"
-                placeholder="Search"
+                placeholder="Search food categories, dishes ..."
                 className=" mr-sm-2"
               />
             </Col>
@@ -96,12 +99,26 @@ function Header(props) {
               onClick={(e) => {
                 navigate("/cart");
               }}
-              className={`bg-transparent ${styles.buttonBackground}`}
+              className={`bg-transparent ${styles.buttonBackground} ${styles.cartButton}`}
             >
               <AiOutlineShoppingCart /> <span>{cart.cartCount}</span>
             </Button>
             <Button
-              className={hideLogoutButton}
+              className={`bg-transparent ${styles.buttonBackground} ${showAfterLoginButtons}`}
+              variant=""
+              onClick={onProfile}
+            >
+              <FaFirstOrder /> <span> Orders</span>
+            </Button>
+            <Button
+              className={`bg-transparent ${styles.buttonBackground} ${showAfterLoginButtons}`}
+              variant=""
+              onClick={onProfile}
+            >
+              <AiOutlineUser /> <span> Profile</span>
+            </Button>
+            <Button
+              className={showAfterLoginButtons}
               variant="danger"
               onClick={onLogout}
             >

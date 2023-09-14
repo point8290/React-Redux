@@ -41,9 +41,9 @@ export const getProductList = function () {
   return (dispatch, getState) => {
     dispatch(productRequest(true));
     api
-      .get("/", {})
+      .get("/products")
       .then((response) => {
-        dispatch(productRequestSuccess(response.data));
+        dispatch(productRequestSuccess(response.data.products));
       })
       .catch((error) => {
         dispatch(productRequestFailure(error.message));

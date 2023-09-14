@@ -2,9 +2,11 @@
   font-weight: bold;
   font-family: Tahoma, sans-serif;
   cursor: pointer;
+  width: 20%;
+  text-align: center;
 }
 .headerBackground {
-  background-color: #f1f3f4;
+  background-color: #a1ccd1;
 }
 .navbarCollapse {
   flex-grow: 0 !important;
@@ -19,8 +21,11 @@
 .hide {
   display: none;
 }
-.buttonItem {
+.buttonItem,
+.cartButton {
   height: 2rem;
+  display: flex;
+  align-items: center;
 }
 
 .linksContainer {

@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://localhost:4444/api/food-item",
+  baseURL: "http://localhost:8000/api/food-item",
 });
