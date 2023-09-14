@@ -1,8 +1,30 @@
 import Card from "react-bootstrap/Card";
 import styles from "./ProductCard.module.css";
 import Button from "react-bootstrap/Button";
+import { useSelector, useDispatch } from "react-redux";
+import { FaPlus, FaMinus } from "react-icons/fa";
+import {
+  addProduct,
+  removeProduct,
+  increaseProductCount,
+  decreaseProductCount,
+} from "../../features/cart/cartSlice";
+
 function ProductCard(props) {
+  const dispatch = useDispatch();
   const stylesForProduct = `${styles.productCard}  p-3 m-2`;
+  const cart = useSelector((store) => store.cart);
+
+  const getProductCount = (productId) => {
+    let product = cart.cartProducts.filter((product) => {
+      return product.product._id === productId;
+    });
+    if (product.length > 0) {
+      return product[0].count;
+    }
+    return 0;
+  };
+
   return (
     <Card className={stylesForProduct}>
       <Card.Img
@@ -21,9 +43,41 @@ function ProductCard(props) {
           {props.product.description}
         </Card.Text>
         <div className={styles.buttonContainer}>
-          <Button variant="" className={styles.button}>
-            Add to Cart
-          </Button>
+          {getProductCount(props.product._id) === 0 ? (
+            <Button
+              variant=""
+              className={styles.button}
+              onClick={() => {
+                dispatch(addProduct(props.product));
+              }}
+            >
+              Add to Cart
+            </Button>
+          ) : (
+            <div className={styles.plusMinusButton}>
+              <Button
+                variant=""
+                className={styles.button}
+                onClick={() => {
+                  dispatch(increaseProductCount(props.product._id));
+                }}
+              >
+                <FaPlus />
+              </Button>
+              <div className={styles.productCount}>
+                <span> {getProductCount(props.product._id)} </span>
+              </div>
+              <Button
+                variant=""
+                className={styles.button}
+                onClick={() => {
+                  dispatch(decreaseProductCount(props.product._id));
+                }}
+              >
+                <FaMinus />
+              </Button>
+            </div>
+          )}
         </div>
       </Card.Body>
     </Card>

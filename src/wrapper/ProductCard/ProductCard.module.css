@@ -42,6 +42,15 @@
 .ratingCountAndPrice {
   display: flex;
 }
+.plusMinusButton {
+  display: flex;
+}
+.productCount {
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0px;
+  font-size: 12px;
+}
 @media screen and (max-width: 480px) {
   .productCard {
     width: 100%;

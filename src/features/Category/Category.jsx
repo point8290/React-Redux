@@ -49,7 +49,7 @@ const Category = (props) => {
         <div className={styles.categoryList}>
           {categoryStore.categories.map((category) => {
             return (
-              <div className={styles.categoryItem}>
+              <div key={category._id} className={styles.categoryItem}>
                 <Link
                   className={styles.categoryItemLink}
                   to={`/category/${category._id}`}

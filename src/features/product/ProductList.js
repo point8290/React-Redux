@@ -5,6 +5,7 @@ import { getProductList } from "./productSlice";
 import styles from "./ProductList.module.css";
 import Loading from "../../Util/Loading";
 import ToastMessages from "../../Util/ToastMessages";
+
 const ProductList = (props) => {
   const productStore = useSelector((state) => state.product);
   const [showToast, setShowToast] = useState(false);
@@ -47,7 +48,7 @@ const ProductList = (props) => {
       !productStore.error ? (
         <div className={styles.productList}>
           {productStore.products.map((product) => {
-            return <ProductCard key={product.id} product={product} />;
+            return <ProductCard key={product._id} product={product} />;
           })}
         </div>
       ) : (

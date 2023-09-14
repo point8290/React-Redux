@@ -10,46 +10,56 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      state.cartProducts.push(action.payload);
-      state.cartCount += 1;
+      const product = state.cartProducts.find(
+        (product) => product.product._id === action.payload._id
+      );
+
+      if (product) {
+        product.count += 1;
+      } else {
+        state.cartProducts.push({ product: action.payload, count: 1 });
+      }
+
+      state.cartCount = state.cartCount + 1;
     },
 
     removeProduct: (state, action) => {
-      let indexToBeRemoved = -1;
+      const product = state.cartProducts.find(
+        (product) => product.product._id === action.payload._id
+      );
+      const indexToBeRemoved = state.cartProducts.findIndex(
+        (product) => product.product._id === action.payload._id
+      );
 
-      for (let index = 0; index < state.cartProducts.length; index++) {
-        const product = state.cartProducts[index];
-        if (product.id === action.payload) {
-          indexToBeRemoved = index;
-          break;
-        }
-      }
-      state.cartCount -= state.cartProducts[indexToBeRemoved].count;
       if (indexToBeRemoved !== -1) {
         state.cartProducts.slice(indexToBeRemoved, 1);
       }
+
+      state.cartCount = state.cartCount - product.product.count;
     },
 
     increaseProductCount: (state, action) => {
-      for (let index = 0; index < state.cartProducts.length; index++) {
-        const product = state.cartProducts[index];
-        if (product.id === action.payload) {
-          product.count += 1;
-          break;
-        }
-      }
-      state.cartCount += 1;
+      const product = state.cartProducts.find(
+        (product) => product.product._id === action.payload
+      );
+      product.count += 1;
+      state.cartCount = state.cartCount + 1;
     },
 
     decreaseProductCount: (state, action) => {
-      for (let index = 0; index < state.cartProducts.length; index++) {
-        const product = state.cartProducts[index];
-        if (product.id === action.payload) {
-          product.count -= 1;
-          break;
-        }
+      const product = state.cartProducts.find(
+        (product) => product.product._id === action.payload
+      );
+      product.count -= 1;
+
+      const indexToBeRemoved = state.cartProducts.findIndex(
+        (product) => product.product._id === action.payload
+      );
+      if (indexToBeRemoved !== -1) {
+        state.cartProducts.slice(indexToBeRemoved, 1);
       }
-      state.cartCount -= 1;
+
+      state.cartCount = state.cartCount - 1;
     },
   },
 });
