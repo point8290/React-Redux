@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import {
   addProduct,
-  removeProduct,
   increaseProductCount,
   decreaseProductCount,
 } from "../../features/cart/cartSlice";
@@ -24,9 +23,11 @@ function ProductCard(props) {
     }
     return 0;
   };
-
+  const productCardWidth = {
+    width: props.width,
+  };
   return (
-    <Card className={stylesForProduct}>
+    <Card style={productCardWidth} className={stylesForProduct}>
       <Card.Img
         className={styles.imageBox}
         variant="top"
@@ -59,10 +60,10 @@ function ProductCard(props) {
                 variant=""
                 className={styles.button}
                 onClick={() => {
-                  dispatch(increaseProductCount(props.product._id));
+                  dispatch(decreaseProductCount(props.product._id));
                 }}
               >
-                <FaPlus />
+                <FaMinus />
               </Button>
               <div className={styles.productCount}>
                 <span> {getProductCount(props.product._id)} </span>
@@ -71,10 +72,10 @@ function ProductCard(props) {
                 variant=""
                 className={styles.button}
                 onClick={() => {
-                  dispatch(decreaseProductCount(props.product._id));
+                  dispatch(increaseProductCount(props.product._id));
                 }}
               >
-                <FaMinus />
+                <FaPlus />
               </Button>
             </div>
           )}

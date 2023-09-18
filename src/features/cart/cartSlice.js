@@ -23,21 +23,6 @@ export const cartSlice = createSlice({
       state.cartCount = state.cartCount + 1;
     },
 
-    removeProduct: (state, action) => {
-      const product = state.cartProducts.find(
-        (product) => product.product._id === action.payload._id
-      );
-      const indexToBeRemoved = state.cartProducts.findIndex(
-        (product) => product.product._id === action.payload._id
-      );
-
-      if (indexToBeRemoved !== -1) {
-        state.cartProducts.slice(indexToBeRemoved, 1);
-      }
-
-      state.cartCount = state.cartCount - product.product.count;
-    },
-
     increaseProductCount: (state, action) => {
       const product = state.cartProducts.find(
         (product) => product.product._id === action.payload
@@ -51,12 +36,13 @@ export const cartSlice = createSlice({
         (product) => product.product._id === action.payload
       );
       product.count -= 1;
-
-      const indexToBeRemoved = state.cartProducts.findIndex(
-        (product) => product.product._id === action.payload
-      );
-      if (indexToBeRemoved !== -1) {
-        state.cartProducts.slice(indexToBeRemoved, 1);
+      if (product.count === 0) {
+        const indexToBeRemoved = state.cartProducts.findIndex(
+          (product) => product.product._id === action.payload
+        );
+        if (indexToBeRemoved !== -1) {
+          state.cartProducts.slice(indexToBeRemoved, 1);
+        }
       }
 
       state.cartCount = state.cartCount - 1;
@@ -64,11 +50,7 @@ export const cartSlice = createSlice({
   },
 });
 
-export const {
-  addProduct,
-  removeProduct,
-  increaseProductCount,
-  decreaseProductCount,
-} = cartSlice.actions;
+export const { addProduct, increaseProductCount, decreaseProductCount } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

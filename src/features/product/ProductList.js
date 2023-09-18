@@ -48,7 +48,14 @@ const ProductList = (props) => {
       !productStore.error ? (
         <div className={styles.productList}>
           {productStore.products.map((product) => {
-            return <ProductCard key={product._id} product={product} />;
+            return (
+              <ProductCard
+                isProductList={true}
+                width="45%"
+                key={product._id}
+                product={product}
+              />
+            );
           })}
         </div>
       ) : (

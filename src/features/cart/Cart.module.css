@@ -1,0 +1,29 @@
+.productList {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 100vh;
+}
+.cartContainer {
+  display: flex;
+  flex-direction: row;
+}
+.cartProductContainer {
+  width: 60%;
+}
+.cartDetailsContainer {
+  width: 40%;
+  padding-top: 8px;
+}
+
+@media screen and (max-width: 560px) {
+  .cartContainer {
+    flex-direction: column;
+  }
+  .cartProductContainer {
+    width: 100%;
+  }
+  .cartDetailsContainer {
+    width: 100%;
+  }
+}
