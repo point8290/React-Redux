@@ -7,13 +7,21 @@ import { Container } from "react-bootstrap";
 import { AppContext } from "../context/AppContextProvider";
 import { useContext } from "react";
 import ToastMessages from "../Util/ToastMessages";
+import Login from "../features/user/Login";
+import Register from "../features/user/Register";
 function RootLayout() {
   const globalContext = useContext(AppContext);
+
+  const mainClasses = ` ${
+    globalContext.showLoginPopup || globalContext.showRegisterPopup
+      ? styles.modalContainer
+      : ""
+  }`;
 
   return (
     <div>
       <Header />
-      <main className={styles.mainContainer}>
+      <main>
         {globalContext.toastObject.showToast && (
           <ToastMessages
             type={globalContext.toastObject.messageType}
@@ -25,12 +33,18 @@ function RootLayout() {
           />
         )}
 
-        <Container className={styles.sideBar}>
-          <Sidebar />
-        </Container>
-        <Container className={styles.outletContainer}>
-          <Outlet />
-        </Container>
+        <div className={mainClasses}>
+          {globalContext.showLoginPopup && <Login />}
+          {globalContext.showRegisterPopup && <Register />}
+        </div>
+        <div className={styles.mainContainer}>
+          <Container className={styles.sideBar}>
+            <Sidebar />
+          </Container>
+          <Container className={styles.outletContainer}>
+            <Outlet />
+          </Container>
+        </div>
       </main>
     </div>
   );

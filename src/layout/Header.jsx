@@ -28,11 +28,22 @@ function Header(props) {
         localStorage.setItem("isUserLoggedIn", false);
         globalContext.setIsUserLoggedIn(false);
 
-        navigate("/login");
+        navigate("/");
       })
       .catch((error) => {
         console.log("error", error);
       });
+  };
+  const onLogin = () => {
+    globalContext.setShowRegisterPopup(false);
+
+    globalContext.setShowLoginPopup(true);
+  };
+
+  const onRegister = () => {
+    globalContext.setShowLoginPopup(false);
+
+    globalContext.setShowRegisterPopup(true);
   };
   const onProfile = () => {};
   const hideLoginButton = globalContext.isUserLoggedIn ? styles.hide : "";
@@ -81,17 +92,13 @@ function Header(props) {
             </Button>
             <Button
               className={`bg-transparent ${hideLoginButton} ${styles.buttonBackground}`}
-              onClick={(e) => {
-                navigate("/login");
-              }}
+              onClick={onLogin}
             >
               Login
             </Button>
             <Button
               className={`bg-transparent ${hideRegisterButton} ${styles.buttonBackground}`}
-              onClick={(e) => {
-                navigate("/register");
-              }}
+              onClick={onRegister}
             >
               Register
             </Button>

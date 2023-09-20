@@ -1,8 +1,8 @@
 .categoryList {
   padding: 10px;
   overflow-y: scroll;
-  height: 100vh;
   background: #fff;
+  height: 80vh;
 }
 .categoryItem {
   text-align: start;

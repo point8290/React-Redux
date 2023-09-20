@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { ImCross } from "react-icons/im";
 import styles from "./Register.module.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/user";
 import { AppContext } from "../../context/AppContextProvider";
 import { FcGoogle } from "react-icons/fc";
@@ -11,6 +12,7 @@ import { useContext } from "react";
 import { loginWithGoogle } from "./googleAuthentication";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "./userSlice";
+import ReactDOM from "react-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -20,6 +22,11 @@ function Register() {
   const globalContext = useContext(AppContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const hidePopup = () => {
+    globalContext.setShowRegisterPopup(false);
+  };
+
   const loginWithGoogleCallback = (token) => {
     if (token) {
       dispatch(setAccessToken(token));
@@ -30,6 +37,7 @@ function Register() {
       localStorage.setItem("isUserLoggedIn", false);
       globalContext.setIsUserLoggedIn(false);
     }
+    globalContext.setShowRegisterPopup(false);
 
     globalContext.showToastMessage(
       true,
@@ -39,6 +47,7 @@ function Register() {
       3000,
       true
     );
+
     navigate("/");
   };
   const onRegister = async (e) => {
@@ -67,6 +76,8 @@ function Register() {
           setPassword("");
           setConfirmPassword("");
           if (response && response.data) {
+            globalContext.setShowRegisterPopup(false);
+
             globalContext.showToastMessage(
               true,
               response.data.message,
@@ -77,7 +88,7 @@ function Register() {
             );
           }
 
-          navigate("/login");
+          navigate("/");
         })
         .catch((error) => {
           const errorMsg = error.data ? error.data.message : error.message;
@@ -92,8 +103,14 @@ function Register() {
       );
     }
   };
-  return (
-    <Container className={styles.mainContainer}>
+
+  return ReactDOM.createPortal(
+    <Container className={styles.registerContainer}>
+      <div className={styles.crossButton}>
+        <Button variant="">
+          <ImCross onClick={hidePopup} />
+        </Button>
+      </div>
       <div className={styles.registerForm}>
         <Form onSubmit={onRegister}>
           <div className={styles.registerHeading}>
@@ -135,7 +152,14 @@ function Register() {
 
           <div style={{ textAlign: "center", marginBottom: "5px" }}>
             Already have an account? &nbsp;
-            <Link to="/login">Please Login</Link>
+            <Button
+              onClick={(e) => {
+                globalContext.setShowRegisterPopup(false);
+                globalContext.setShowLoginPopup(true);
+              }}
+            >
+              Please Login
+            </Button>
           </div>
 
           <div className={styles.registerButtons}>
@@ -164,7 +188,8 @@ function Register() {
           </div>
         </Form>
       </div>
-    </Container>
+    </Container>,
+    document.getElementById("modal-portal")
   );
 }
 

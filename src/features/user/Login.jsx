@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
+import ReactDOM from "react-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FcGoogle } from "react-icons/fc";
+import { ImCross } from "react-icons/im";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { loginWithGoogle } from "./googleAuthentication";
@@ -37,6 +39,7 @@ function Login(props) {
     dispatch(setAccessToken(token));
     localStorage.setItem("isUserLoggedIn", true);
     globalContext.setIsUserLoggedIn(true);
+    globalContext.setShowLoginPopup(false);
 
     globalContext.showToastMessage(
       true,
@@ -146,6 +149,7 @@ function Login(props) {
 
                   setEmail("");
                   setPassword("");
+                  globalContext.setShowLoginPopup(false);
 
                   globalContext.showToastMessage(
                     true,
@@ -155,6 +159,7 @@ function Login(props) {
                     3000,
                     true
                   );
+
                   navigate("/");
                 })
                 .catch((error) => {
@@ -186,9 +191,16 @@ function Login(props) {
       globalContext.setIsUserLoggedIn(false);
     }
   };
-
-  return (
-    <Container className={styles.mainContainer}>
+  const hidePopup = () => {
+    globalContext.setShowLoginPopup(false);
+  };
+  return ReactDOM.createPortal(
+    <Container className={styles.loginContainer}>
+      <div className={styles.crossButton}>
+        <Button variant="">
+          <ImCross onClick={hidePopup} />
+        </Button>
+      </div>
       <div className={styles.loginForm}>
         <Form onSubmit={onLogin}>
           <div
@@ -322,7 +334,8 @@ function Login(props) {
           </div>
         </Form>
       </div>
-    </Container>
+    </Container>,
+    document.getElementById("modal-portal")
   );
 }
 
