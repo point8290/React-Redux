@@ -1,0 +1,25 @@
+.loader {
+  display: inline-block;
+  border: 15px solid #f3f3f3;
+  border-top: 15px solid #262626;
+  border-radius: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  animation: spin 1s linear infinite;
+}
+.loadingText {
+  width: 0.5rem;
+  height: 0.5rem;
+  font-weight: bolder;
+  font-size: x-large;
+  align-self: stretch;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,43 @@
+.brandTitle {
+  font-weight: bold;
+  font-family: Tahoma, sans-serif;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+.headerBackground {
+  background-color: #a1ccd1;
+}
+.navbarCollapse {
+  flex-grow: 0 !important;
+}
+.searchBarForm {
+  flex: 1;
+}
+.searchBarWidth {
+  min-width: 10rem;
+  width: 80%;
+}
+.hide {
+  display: none;
+}
+.buttonItem,
+.cartButton {
+  height: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.linksContainer {
+  align-items: baseline;
+}
+.buttonBackground {
+  color: black;
+  border: none;
+  padding: 0px 8px;
+  margin: 0px 4px;
+}
+.buttonBackground:hover,
+.buttonBackground:active {
+  color: black;
+}

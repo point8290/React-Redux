@@ -1,0 +1,7 @@
+.productList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow-y: scroll;
+  height: 100vh;
+}

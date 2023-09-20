@@ -1,0 +1,20 @@
+.categoryList {
+  padding: 10px;
+  overflow-y: scroll;
+  height: 100vh;
+  background: #fff;
+}
+.categoryItem {
+  text-align: start;
+  padding: 5px 10px;
+  margin-top: 5px;
+  background: #fff;
+  border-bottom: 1px solid #f8f8f8;
+  border-radius: 5px;
+}
+.categoryItemLink {
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  color: #262626;
+}

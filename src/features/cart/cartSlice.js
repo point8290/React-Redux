@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cartProducts: [],
+  cartCount: 0,
 };
 
 export const cartSlice = createSlice({
@@ -9,52 +10,47 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      state.cartProducts.push(action.payload);
-    },
+      const product = state.cartProducts.find(
+        (product) => product.product._id === action.payload._id
+      );
 
-    removeProduct: (state, action) => {
-      let indexToBeRemoved = -1;
-
-      for (let index = 0; index < state.cartProducts.length; index++) {
-        const product = state.cartProducts[index];
-        if (product.id === action.payload) {
-          indexToBeRemoved = index;
-          break;
-        }
+      if (product) {
+        product.count += 1;
+      } else {
+        state.cartProducts.push({ product: action.payload, count: 1 });
       }
 
-      if (indexToBeRemoved !== -1) {
-        state.cartProducts.slice(indexToBeRemoved, 1);
-      }
+      state.cartCount = state.cartCount + 1;
     },
 
     increaseProductCount: (state, action) => {
-      for (let index = 0; index < state.cartProducts.length; index++) {
-        const product = state.cartProducts[index];
-        if (product.id === action.payload) {
-          product.count += 1;
-          break;
-        }
-      }
+      const product = state.cartProducts.find(
+        (product) => product.product._id === action.payload
+      );
+      product.count += 1;
+      state.cartCount = state.cartCount + 1;
     },
 
     decreaseProductCount: (state, action) => {
-      for (let index = 0; index < state.cartProducts.length; index++) {
-        const product = state.cartProducts[index];
-        if (product.id === action.payload) {
-          product.count -= 1;
-          break;
+      const product = state.cartProducts.find(
+        (product) => product.product._id === action.payload
+      );
+      product.count -= 1;
+      if (product.count === 0) {
+        const indexToBeRemoved = state.cartProducts.findIndex(
+          (product) => product.product._id === action.payload
+        );
+        if (indexToBeRemoved !== -1) {
+          state.cartProducts.slice(indexToBeRemoved, 1);
         }
       }
+
+      state.cartCount = state.cartCount - 1;
     },
   },
 });
 
-export const {
-  addProduct,
-  removeProduct,
-  increaseProductCount,
-  decreaseProductCount,
-} = cartSlice.actions;
+export const { addProduct, increaseProductCount, decreaseProductCount } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
