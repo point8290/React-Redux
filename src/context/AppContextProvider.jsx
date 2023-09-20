@@ -12,6 +12,10 @@ function AppContextProvider({ children }) {
     delay: 3000,
     showAnimation: true,
   });
+
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showRegisterPopup, setShowRegisterPopup] = useState(false);
+
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(
     localStorage.getItem("isUserLoggedIn")?.toLowerCase() === "true"
   );
@@ -48,6 +52,10 @@ function AppContextProvider({ children }) {
     setIsUserLoggedIn,
     setToastObject,
     isUserLoggedIn,
+    showLoginPopup,
+    setShowLoginPopup,
+    showRegisterPopup,
+    setShowRegisterPopup,
   };
   return (
     <AppContext.Provider value={globalContext}>{children}</AppContext.Provider>
