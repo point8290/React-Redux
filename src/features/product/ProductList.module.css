@@ -1,7 +1,25 @@
 .productList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   overflow-y: scroll;
-  height: 80vh;
+  height: 87vh;
+}
+.mainContainer {
+  padding: 10px;
+  background: #dde5e5;
+  border-radius: 5px;
+  margin: 10px;
+}
+.actionRow {
+  display: flex;
+  justify-content: center;
+  background: #fff;
+  margin-bottom: 5px;
+  justify-content: space-around;
+  padding: 5px;
+}
+.dropdownItem {
+  text-decoration: none;
+  color: black;
 }

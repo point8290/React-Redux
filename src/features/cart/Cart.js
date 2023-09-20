@@ -14,7 +14,11 @@ const Cart = (props) => {
 
   const cartProducts =
     cart.cartCount === 0 ? (
-      <div> No items in cart</div>
+      <div
+        style={{ textAlign: "center", fontWeight: "bold", fontSize: "20px" }}
+      >
+        No items in cart
+      </div>
     ) : (
       <div className={styles.productList}>
         {cart.cartProducts?.map((product) => {

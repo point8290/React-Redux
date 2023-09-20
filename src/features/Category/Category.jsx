@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategoryList } from "./categorySlice";
 import styles from "./Category.module.css";
-import Loading from "../../Util/Loading";
 import ToastMessages from "../../Util/ToastMessages";
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
+
 const Category = (props) => {
   const categoryStore = useSelector((state) => state.category);
   const [showToast, setShowToast] = useState(false);
   const dispatch = useDispatch();
+
   const onToastClose = () => {
     setShowToast(false);
   };
@@ -28,7 +29,6 @@ const Category = (props) => {
 
   return (
     <div>
-      {categoryStore.loading ? <Loading /> : ""}
       {showToast ? (
         <ToastMessages
           type="error"
@@ -42,6 +42,7 @@ const Category = (props) => {
       ) : (
         ""
       )}
+
       {categoryStore &&
       categoryStore.categories &&
       !categoryStore.loading &&

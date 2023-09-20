@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "./Header";
-import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import styles from "./RootLayout.module.css";
 import { Container } from "react-bootstrap";
@@ -37,13 +36,11 @@ function RootLayout() {
           {globalContext.showLoginPopup && <Login />}
           {globalContext.showRegisterPopup && <Register />}
         </div>
+
         <div className={styles.mainContainer}>
-          <Container className={styles.sideBar}>
-            <Sidebar />
-          </Container>
-          <Container className={styles.outletContainer}>
+          <div className={styles.outletContainer}>
             <Outlet />
-          </Container>
+          </div>
         </div>
       </main>
     </div>

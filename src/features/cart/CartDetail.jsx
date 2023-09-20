@@ -3,8 +3,34 @@ import styles from "./CartDetail.module.css";
 import Button from "react-bootstrap/esm/Button";
 import Checkbox from "react-bootstrap/esm/FormCheckInput";
 import CheckboxLabel from "react-bootstrap/esm/FormCheckLabel";
+import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { AppContext } from "../../context/AppContextProvider";
 
 function CartDetail(props) {
+  const globalContext = useContext(AppContext);
+  const cart = useSelector((state) => state.cart);
+
+  const onCheckout = () => {
+    if (cart.cartCount === 0) {
+      globalContext.showToastMessage(
+        true,
+        "Your cart is empty!!",
+        "error",
+        true,
+        3000,
+        true
+      );
+
+      return;
+    }
+
+    if (globalContext.isUserLoggedIn) {
+    } else {
+      globalContext.setShowLoginPopup(true);
+    }
+  };
+
   return (
     <Card className={styles.cartCard}>
       <Card.Body>
@@ -22,7 +48,11 @@ function CartDetail(props) {
         </div>
       </Card.Body>
       <div className={styles.checkoutButtonContainer}>
-        <Button className={styles.checkoutButton} variant="success">
+        <Button
+          onClick={onCheckout}
+          className={styles.checkoutButton}
+          variant="success"
+        >
           Checkout
         </Button>
       </div>

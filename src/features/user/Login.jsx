@@ -240,6 +240,10 @@ function Login(props) {
             <div style={{ textAlign: "end", paddingTop: "5px" }}>
               <Button
                 variant=""
+                style={{
+                  fontSize: "14px",
+                  color: "#3085C3",
+                }}
                 onClick={(e) => {
                   setLoginWithEmail(!loginWithEmail);
                   setShowVerificationCodeField(true);
@@ -253,6 +257,10 @@ function Login(props) {
             <div style={{ textAlign: "end", paddingTop: "5px" }}>
               <Button
                 variant=""
+                style={{
+                  fontSize: "14px",
+                  color: "#3085C3",
+                }}
                 onClick={(e) => {
                   onSendOTP();
                 }}
@@ -261,6 +269,10 @@ function Login(props) {
               </Button>
               <Button
                 variant=""
+                style={{
+                  fontSize: "14px",
+                  color: "#3085C3",
+                }}
                 onClick={(e) => {
                   setLoginWithEmail(!loginWithEmail);
                   setShowVerificationCodeField(false);
@@ -297,7 +309,27 @@ function Login(props) {
               />
             </Form.Group>
           )}
-
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: "5px",
+            }}
+          >
+            Do not hve an Account? &nbsp;
+            <Button
+              variant=""
+              style={{
+                fontSize: "14px",
+                color: "#3085C3",
+              }}
+              onClick={(e) => {
+                globalContext.setShowLoginPopup(false);
+                globalContext.setShowRegisterPopup(true);
+              }}
+            >
+              Please Register
+            </Button>
+          </div>
           <div className={styles.buttons}>
             {loginWithEmail ? (
               <Button

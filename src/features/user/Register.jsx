@@ -153,6 +153,11 @@ function Register() {
           <div style={{ textAlign: "center", marginBottom: "5px" }}>
             Already have an account? &nbsp;
             <Button
+              variant=""
+              style={{
+                fontSize: "14px",
+                color: "#3085C3",
+              }}
               onClick={(e) => {
                 globalContext.setShowRegisterPopup(false);
                 globalContext.setShowLoginPopup(true);
