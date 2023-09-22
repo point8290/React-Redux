@@ -10,6 +10,7 @@
 }
 .navbarCollapse {
   flex-grow: 0 !important;
+  background-color: #088395;
 }
 .searchBarForm {
   flex: 1;
@@ -24,8 +25,7 @@
 .buttonItem,
 .cartButton {
   height: 2rem;
-  display: flex;
-  align-items: center;
+  display: block;
 }
 
 .linksContainer {
@@ -35,9 +35,14 @@
   color: black;
   border: none;
   padding: 0px 8px;
+  font-weight: 600;
   margin: 0px 4px;
+  font-size: 20px;
 }
 .buttonBackground:hover,
 .buttonBackground:active {
   color: black;
+}
+.navbar-toggler:focus {
+  box-shadow: none !important;
 }

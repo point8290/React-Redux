@@ -1,16 +1,18 @@
 import Card from "react-bootstrap/Card";
-import styles from "./ProductCard.module.css";
+import styles from "./CartItem.module.css";
 import Button from "react-bootstrap/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { FaPlus, FaMinus } from "react-icons/fa";
+
 import {
   addProduct,
   increaseProductCount,
   decreaseProductCount,
 } from "../../features/cart/cartSlice";
 
-function ProductCard(props) {
+function CartItem(props) {
   const dispatch = useDispatch();
+
   const stylesForProduct = `${styles.productCard}  p-3 m-2`;
   const cart = useSelector((store) => store.cart);
 
@@ -38,11 +40,9 @@ function ProductCard(props) {
           {props.product.name}
         </Card.Title>
         <div className={styles.ratingCountAndPrice}>
-          <div className="px-1">₹{props.product.price}</div>
+          <div className="px-1">₹{props.product.price * props.quantity}</div>
         </div>
-        <Card.Text className={styles.wrapToThreeLines}>
-          {props.product.description}
-        </Card.Text>
+        <Card.Text>{}</Card.Text>
         <div className={styles.buttonContainer}>
           {getProductCount(props.product._id) === 0 ? (
             <Button
@@ -85,4 +85,4 @@ function ProductCard(props) {
   );
 }
 
-export default ProductCard;
+export default CartItem;

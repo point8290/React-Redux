@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
+import { BiSort, BiFilter } from "react-icons/bi";
 
 const ProductList = (props) => {
   const productStore = useSelector((state) => state.product);
@@ -37,11 +38,17 @@ const ProductList = (props) => {
     <div className={styles.mainContainer}>
       <div className={styles.actionRow}>
         <div className={styles.sortingAction}>
-          <span> Sort By : </span>
+          <span>
+            <BiSort size={25} />
+          </span>
 
           <Dropdown as={ButtonGroup}>
-            <Button variant="outline-info">{sortLabel}</Button>
-            <Dropdown.Toggle split variant="outline-info" id="sort-dropdown" />
+            <Button variant="outline-primary">{sortLabel}</Button>
+            <Dropdown.Toggle
+              split
+              variant="outline-primary"
+              id="sort-dropdown"
+            />
             <Dropdown.Menu>
               <Button
                 name="Action"
@@ -77,12 +84,14 @@ const ProductList = (props) => {
           </Dropdown>
         </div>
         <div className={styles.filterAction}>
-          <span> Filter By : </span>
+          <span>
+            <BiFilter size={30} />
+          </span>
           <Dropdown as={ButtonGroup}>
-            <Button variant="outline-info">{filterLabel}</Button>
+            <Button variant="outline-primary">{filterLabel}</Button>
             <Dropdown.Toggle
               split
-              variant="outline-info"
+              variant="outline-primary"
               id="filter-dropdown"
             />
 
@@ -146,7 +155,7 @@ const ProductList = (props) => {
               return (
                 <ProductCard
                   isProductList={true}
-                  width="45%"
+                  width="30%"
                   key={product._id}
                   product={product}
                 />

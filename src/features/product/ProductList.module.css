@@ -1,24 +1,26 @@
 .productList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   overflow-y: scroll;
   height: 87vh;
 }
 .mainContainer {
-  padding: 10px;
   border-radius: 5px;
-  margin: 10px;
 }
 .actionRow {
   display: flex;
-  justify-content: center;
-  background: #fff;
+  justify-content: flex-start;
   margin-bottom: 5px;
-  justify-content: space-around;
-  padding: 5px;
+  padding: 5px 20px;
 }
 .dropdownItem {
   text-decoration: none;
   color: black;
+}
+.sortingAction {
+  margin-right: 10px;
+}
+.filterAction {
+  margin-left: 10px;
 }

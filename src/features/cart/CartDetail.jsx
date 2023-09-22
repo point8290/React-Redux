@@ -1,12 +1,11 @@
 import Card from "react-bootstrap/Card";
 import styles from "./CartDetail.module.css";
 import Button from "react-bootstrap/esm/Button";
-import Checkbox from "react-bootstrap/esm/FormCheckInput";
-import CheckboxLabel from "react-bootstrap/esm/FormCheckLabel";
-import { useSelector } from "react-redux";
+import Form from "react-bootstrap/Form";
+import { useSelector, useDispatch } from "react-redux";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContextProvider";
-
+import { setIncludeCutlery } from "./cartSlice";
 function CartDetail(props) {
   const globalContext = useContext(AppContext);
   const cart = useSelector((state) => state.cart);
@@ -30,21 +29,30 @@ function CartDetail(props) {
       globalContext.setShowLoginPopup(true);
     }
   };
-
+  const dispatch = useDispatch();
   return (
     <Card className={styles.cartCard}>
       <Card.Body>
-        <Card.Title>Cart Items</Card.Title>
+        <Card.Title style={{ textAlign: "center" }}>Cart Details</Card.Title>
         <div>
           <strong> Total Quantity : </strong>
           <span> {props.totalQuantity}</span>
         </div>
         <div>
-          <strong> Gross Total : </strong> <span> {props.grossTotal}</span>
+          <strong> Gross Total : </strong> <span> ₹{props.grossTotal}</span>
         </div>
         <div>
-          <Checkbox style={{ border: "1px solid black" }} /> &nbsp;
-          <CheckboxLabel> Include cutlery </CheckboxLabel>
+          <Form>
+            <Form.Check
+              checked={cart.includeCutlery}
+              type="switch"
+              id="cutlery-switch"
+              label="Include cutlery"
+              onChange={() => {
+                dispatch(setIncludeCutlery(!cart.includeCutlery));
+              }}
+            />
+          </Form>
         </div>
       </Card.Body>
       <div className={styles.checkoutButtonContainer}>

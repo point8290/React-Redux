@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import ProductCard from "../../wrapper/ProductCard/ProductCard";
+import CartItem from "../../wrapper/CartItem/CartItem";
 import styles from "./Cart.module.css";
 import CartDetail from "./CartDetail";
 
@@ -23,11 +23,11 @@ const Cart = (props) => {
       <div className={styles.productList}>
         {cart.cartProducts?.map((product) => {
           return (
-            <ProductCard
-              isProductList={false}
+            <CartItem
               width="100%"
               key={product.product._id}
               product={product.product}
+              quantity={product.count}
             />
           );
         })}
@@ -43,7 +43,6 @@ const Cart = (props) => {
         total += product.count * product.product.price;
         return total;
       }, 0);
-      debugger;
       const result = { totalQuantity: count, grossTotal: total };
 
       return result;
