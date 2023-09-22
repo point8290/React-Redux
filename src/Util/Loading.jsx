@@ -3,7 +3,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 function Loading() {
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <Spinner
         as="span"
         animation="border"

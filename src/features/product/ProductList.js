@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../../wrapper/ProductCard/ProductCard";
 import { getProductList } from "./productSlice";
@@ -8,21 +8,22 @@ import ToastMessages from "../../Util/ToastMessages";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
+import { useParams } from "react-router-dom";
 
 const ProductList = (props) => {
   const productStore = useSelector((state) => state.product);
   const [showToast, setShowToast] = useState(false);
   const [sortLabel, setSortLabel] = useState("Action");
-  const [filterLabel, setFilterLabel] = useState("Action");
-
+  const [filterLabel, setFilterLabel] = useState("All");
+  const { category } = useParams();
   const dispatch = useDispatch();
   const onToastClose = () => {
     setShowToast(false);
   };
 
   useEffect(() => {
-    dispatch(getProductList());
-  }, []);
+    dispatch(getProductList(category));
+  }, [category]);
 
   useEffect(() => {
     if (!productStore.loading && productStore.error) {
@@ -87,14 +88,14 @@ const ProductList = (props) => {
 
             <Dropdown.Menu>
               <Button
-                name="Action"
+                name="All"
                 onClick={(e) => {
                   setFilterLabel(e.target.name);
                 }}
                 variant="link"
                 className={styles.dropdownItem}
               >
-                Action
+                All
               </Button>
               <Button
                 name="Another action"
@@ -122,6 +123,7 @@ const ProductList = (props) => {
       </div>
       <div>
         {productStore.loading ? <Loading /> : ""}
+
         {showToast ? (
           <ToastMessages
             type="error"

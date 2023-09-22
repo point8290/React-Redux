@@ -1,0 +1,39 @@
+.wrapToTwoLines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.wrapToThreeLines {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.imageBox {
+  object-fit: contain;
+  width: 50%;
+  height: 80%;
+}
+.categoryCardBody {
+  font-family: "Calibari";
+  flex: 1;
+}
+.categoryCard {
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px;
+  align-items: center;
+  height: 200px;
+  width: 30%;
+  cursor: pointer;
+}
+.categoryCard:hover {
+  box-shadow: 10px 10px 8px #ddd;
+}
+@media screen and (max-width: 560px) {
+  .categoryCard {
+    width: 100%;
+    flex-direction: column;
+  }
+}

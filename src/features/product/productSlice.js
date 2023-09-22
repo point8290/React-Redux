@@ -20,7 +20,7 @@ const productSlice = createSlice({
     productRequestSuccess: (state, action) => {
       state.loading = false;
       state.error = "";
-      action.payload.forEach((product) => {
+      action.payload?.forEach((product) => {
         state.products.push(product);
       });
     },
@@ -37,12 +37,13 @@ export default productSlice.reducer;
 export const { productRequest, productRequestFailure, productRequestSuccess } =
   productSlice.actions;
 
-export const getProductList = function () {
+export const getProductList = function (categoryId) {
   return (dispatch, getState) => {
     dispatch(productRequest(true));
     api
-      .get("/")
+      .get(`/${categoryId}`)
       .then((response) => {
+        console.log("response", response);
         dispatch(productRequestSuccess(response.data.products));
       })
       .catch((error) => {

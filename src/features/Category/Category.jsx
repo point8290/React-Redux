@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCategoryList } from "./categorySlice";
 import styles from "./Category.module.css";
 import ToastMessages from "../../Util/ToastMessages";
-import { Link } from "react-router-dom";
-import { FaAngleRight } from "react-icons/fa";
+import CategoryCard from "../../wrapper/CategoryCard/CategoryCard";
+import Loading from "../../Util/Loading";
 
 const Category = (props) => {
   const categoryStore = useSelector((state) => state.category);
@@ -28,7 +28,10 @@ const Category = (props) => {
   }, [categoryStore.error]);
 
   return (
-    <div>
+    <div className={styles.mainContainer}>
+      <div style={{ textAlign: "center" }}>
+        {categoryStore.loading ? <Loading /> : ""}
+      </div>
       {showToast ? (
         <ToastMessages
           type="error"
@@ -49,16 +52,7 @@ const Category = (props) => {
       !categoryStore.error ? (
         <div className={styles.categoryList}>
           {categoryStore.categories.map((category) => {
-            return (
-              <div key={category._id} className={styles.categoryItem}>
-                <Link
-                  className={styles.categoryItemLink}
-                  to={`/category/${category._id}`}
-                >
-                  {category.name} <FaAngleRight />
-                </Link>
-              </div>
-            );
+            return <CategoryCard category={category} key={category._id} />;
           })}
         </div>
       ) : (

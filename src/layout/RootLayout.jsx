@@ -37,10 +37,8 @@ function RootLayout() {
           {globalContext.showRegisterPopup && <Register />}
         </div>
 
-        <div className={styles.mainContainer}>
-          <div className={styles.outletContainer}>
-            <Outlet />
-          </div>
+        <div className={styles.outletContainer}>
+          <Outlet />
         </div>
       </main>
     </div>
