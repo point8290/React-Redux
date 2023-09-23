@@ -17,12 +17,18 @@ function CartDetail(props) {
   };
   useEffect(() => {
     try {
-      const makeRequest = async () => {
-        const response = await api.post("/checkout", {
-          tokenId: stripeToken.id,
-          amount: props.grossTotal,
-        });
-        console.log("response.data", response.data);
+      const makeRequest = () => {
+        api
+          .post("/checkout", {
+            tokenId: stripeToken.id,
+            amount: props.grossTotal,
+          })
+          .then((response) => {
+            console.log("response.data", response.data);
+          })
+          .catch((error) => {
+            console.log("error", error);
+          });
       };
       stripeToken && makeRequest();
     } catch (error) {

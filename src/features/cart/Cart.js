@@ -12,7 +12,6 @@ const Cart = (props) => {
     totalQuantity: 0,
     grossTotal: 0,
   });
-  const globalContext = useContext(AppContext);
   const cartProducts =
     cart.cartCount === 0 ? (
       <div
