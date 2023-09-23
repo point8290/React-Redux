@@ -34,15 +34,17 @@ function ProductCard(props) {
         src={props.product.image}
       />
       <Card.Body className={styles.productCardBody}>
-        <Card.Title className={styles.wrapToTwoLines}>
-          {props.product.name}
-        </Card.Title>
-        <div className={styles.ratingCountAndPrice}>
-          <div className="px-1">₹{props.product.price}</div>
+        <div>
+          <Card.Title className={styles.wrapToTwoLines}>
+            {props.product.name}
+          </Card.Title>
+          <div className={styles.ratingCountAndPrice}>
+            <div className="px-1">₹{props.product.price}</div>
+          </div>
+          <Card.Text className={styles.wrapToThreeLines}>
+            {props.product.description}
+          </Card.Text>
         </div>
-        <Card.Text className={styles.wrapToThreeLines}>
-          {props.product.description}
-        </Card.Text>
         <div className={styles.buttonContainer}>
           {getProductCount(props.product._id) === 0 ? (
             <Button

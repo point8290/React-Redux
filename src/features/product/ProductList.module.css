@@ -1,7 +1,7 @@
 .productList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   overflow-y: scroll;
   height: 87vh;
 }
@@ -23,4 +23,9 @@
 }
 .filterAction {
   margin-left: 10px;
+}
+@media screen and (max-width: 560px) {
+  .actionRow {
+    justify-content: space-between;
+  }
 }

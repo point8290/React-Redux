@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import styles from "./RootLayout.module.css";
-import { Container } from "react-bootstrap";
 import { AppContext } from "../context/AppContextProvider";
 import { useContext } from "react";
 import ToastMessages from "../Util/ToastMessages";
@@ -18,9 +17,9 @@ function RootLayout() {
   }`;
 
   return (
-    <div>
+    <div style={{ height: " 100vh" }}>
       <Header />
-      <main>
+      <main style={{ height: "-webkit-fill-available" }}>
         {globalContext.toastObject.showToast && (
           <ToastMessages
             type={globalContext.toastObject.messageType}

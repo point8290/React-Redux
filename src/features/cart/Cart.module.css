@@ -6,14 +6,15 @@
 }
 .cartContainer {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
 }
 .cartProductContainer {
-  width: 60%;
+  width: 40%;
 }
 .cartDetailsContainer {
-  width: 40%;
+  width: 70%;
   padding-top: 8px;
+  margin: auto;
 }
 
 @media screen and (max-width: 560px) {

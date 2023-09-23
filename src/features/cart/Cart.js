@@ -58,8 +58,10 @@ const Cart = (props) => {
   return (
     <div className={styles.cartContainer}>
       <div className={styles.cartProductContainer}>{cartProducts}</div>
-      <div className={styles.cartDetailsContainer}>
-        <CartDetail {...cartData} />
+      <div style={{ width: "60%" }}>
+        <div className={styles.cartDetailsContainer}>
+          <CartDetail {...cartData} />
+        </div>
       </div>
     </div>
   );

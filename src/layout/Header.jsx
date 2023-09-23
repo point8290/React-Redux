@@ -58,17 +58,18 @@ function Header(props) {
 
   return (
     <div className={styles.headerBackground}>
-      <Navbar collapseOnSelect expand="lg" className="px-2">
-        <Container fluid>
-          <Navbar.Brand
-            className={styles.brandTitle}
-            onClick={(e) => {
-              navigate("/");
-            }}
-          >
-            Bourbon Cafe
-          </Navbar.Brand>
-
+      <Navbar collapseOnSelect expand="lg">
+        <Container fluid className={styles.navbarContainer}>
+          <div>
+            <Navbar.Brand
+              className={styles.brandTitle}
+              onClick={(e) => {
+                navigate("/");
+              }}
+            >
+              Bourbon Cafe
+            </Navbar.Brand>
+          </div>
           <Form className={styles.searchBarForm}>
             <Row>
               <Col xs="auto" className={styles.searchBarWidth}>
@@ -80,17 +81,24 @@ function Header(props) {
               </Col>
             </Row>
           </Form>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xxl}`} />
+          <Navbar.Toggle
+            style={{ background: "white" }}
+            aria-controls={`offcanvasNavbar-expand-xxl`}
+          />
           <Navbar.Offcanvas
             id="headerBar"
             className={styles.navbarCollapse}
             placement="end"
+            style={{ width: "250px" }}
           >
-            <Offcanvas.Header closeButton>
+            <Offcanvas.Header className={styles.offcanvasTitle} closeButton>
               <Offcanvas.Title>Bourbon Cafe</Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-start flex-grow-1 pe-3">
+            <Offcanvas.Body className={styles.offcanvasBody}>
+              <Nav
+                style={{ alignItems: "flex-start" }}
+                className="flex-grow-1 pe-3"
+              >
                 <Button
                   onClick={(e) => {
                     navigate("/");
@@ -118,9 +126,7 @@ function Header(props) {
                   className={`bg-transparent ${styles.buttonBackground} ${styles.cartButton}`}
                 >
                   <AiOutlineShoppingCart size={20} />
-                  <Badge bg="dark" className="mx-1">
-                    {cart.cartCount}
-                  </Badge>
+                  <Badge bg="dark">{cart.cartCount}</Badge>
                 </Button>
                 <Button
                   className={`bg-transparent ${styles.buttonBackground} ${showAfterLoginButtons}`}

@@ -12,18 +12,21 @@
 }
 .imageBox {
   object-fit: contain;
-  width: 50%;
   height: 80%;
 }
 .productCardBody {
   font-family: "Calibari";
   flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 .productCard {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  background: #eeeded;
   border-radius: 5px;
-  box-shadow: 1px 2px 8px #a1ccd1;
   align-items: center;
   height: 350px;
 }

@@ -12,36 +12,43 @@
 }
 .imageBox {
   object-fit: contain;
-  width: 50%;
   height: 80%;
 }
 .productCardBody {
   font-family: "Calibari";
   flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 .productCard {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  background: #eeeded;
   border-radius: 5px;
-  box-shadow: 1px 2px 8px #a1ccd1;
   align-items: center;
   height: 350px;
 }
 
+.productCard:hover {
+  box-shadow: 1px 2px 8px #262626;
+}
 .buttonContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.button {
+.button,
+.button:hover {
   border-radius: 5px;
   padding: 5px 10px;
   font-size: 12px;
   border: 1px solid #00a4ff;
   margin: 5px 0px;
   color: #00a6ff;
-  box-shadow: 1px 2px 8px #c9dce9;
 }
+
 .ratingCountAndPrice {
   display: flex;
 }

@@ -11,7 +11,7 @@ function Loading() {
         role="status"
         aria-hidden="true"
       />
-      Loading...
+      &nbsp; Loading...
     </div>
   );
 }

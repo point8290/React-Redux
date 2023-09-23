@@ -1,9 +1,10 @@
 .cartCard {
   display: flex;
   border-radius: 5px;
-  box-shadow: 1px 2px 8px #a1ccd1;
   padding: 8px;
+  background: #eeeded;
 }
+
 .checkoutButtonContainer {
   width: 100%;
   text-align: center;

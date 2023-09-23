@@ -4,19 +4,34 @@
   cursor: pointer;
   width: 20%;
   text-align: center;
+  color: white;
+}
+.brandTitle:hover {
+  color: white;
 }
 .headerBackground {
-  background-color: #088395;
+  background-color: #000;
 }
 .navbarCollapse {
   flex-grow: 0 !important;
-  background-color: #088395;
+}
+.navbarContainer {
+  flex-wrap: nowrap !important;
+}
+.offcanvasTitle {
+  background-color: #000 !important;
+  color: white;
+}
+.offcanvasTitle > button {
+  filter: invert(1);
+}
+.offcanvasBody {
+  background-color: white !important;
 }
 .searchBarForm {
   flex: 1;
 }
 .searchBarWidth {
-  min-width: 10rem;
   width: 80%;
 }
 .hide {
@@ -37,12 +52,20 @@
   padding: 0px 8px;
   font-weight: 600;
   margin: 0px 4px;
-  font-size: 20px;
+  font-size: 16px;
 }
 .buttonBackground:hover,
 .buttonBackground:active {
-  color: black;
+  color: white;
 }
 .navbar-toggler:focus {
   box-shadow: none !important;
+}
+@media screen and (min-width: 992px) {
+  .offcanvasBody {
+    background-color: transparent !important;
+  }
+  .buttonBackground {
+    color: white;
+  }
 }

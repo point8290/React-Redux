@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../../wrapper/ProductCard/ProductCard";
 import { getProductList } from "./productSlice";
@@ -43,12 +43,8 @@ const ProductList = (props) => {
           </span>
 
           <Dropdown as={ButtonGroup}>
-            <Button variant="outline-primary">{sortLabel}</Button>
-            <Dropdown.Toggle
-              split
-              variant="outline-primary"
-              id="sort-dropdown"
-            />
+            <Button variant="outline-info">{sortLabel}</Button>
+            <Dropdown.Toggle split variant="outline-info" id="sort-dropdown" />
             <Dropdown.Menu>
               <Button
                 name="Action"
@@ -88,10 +84,10 @@ const ProductList = (props) => {
             <BiFilter size={30} />
           </span>
           <Dropdown as={ButtonGroup}>
-            <Button variant="outline-primary">{filterLabel}</Button>
+            <Button variant="outline-info">{filterLabel}</Button>
             <Dropdown.Toggle
               split
-              variant="outline-primary"
+              variant="outline-info"
               id="filter-dropdown"
             />
 
@@ -150,18 +146,24 @@ const ProductList = (props) => {
         productStore.products &&
         !productStore.loading &&
         !productStore.error ? (
-          <div className={styles.productList}>
-            {productStore.products.map((product) => {
-              return (
-                <ProductCard
-                  isProductList={true}
-                  width="30%"
-                  key={product._id}
-                  product={product}
-                />
-              );
-            })}
-          </div>
+          productStore.products.length > 0 ? (
+            <div className={styles.productList}>
+              {productStore.products.map((product) => {
+                return (
+                  <ProductCard
+                    isProductList={true}
+                    width="30%"
+                    key={product._id}
+                    product={product}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <h5 style={{ textAlign: "center", height: "100%" }}>
+              No Products available in this category.
+            </h5>
+          )
         ) : (
           ""
         )}
