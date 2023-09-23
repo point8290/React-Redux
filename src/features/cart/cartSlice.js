@@ -51,6 +51,11 @@ export const cartSlice = createSlice({
     setIncludeCutlery: (state, action) => {
       state.includeCutlery = action.payload;
     },
+    emptyCart: (state, action) => {
+      state.cartProducts = [];
+      state.cartCount = 0;
+      state.includeCutlery = false;
+    },
   },
 });
 
@@ -59,6 +64,7 @@ export const {
   increaseProductCount,
   decreaseProductCount,
   setIncludeCutlery,
+  emptyCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

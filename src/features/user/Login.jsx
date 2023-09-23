@@ -49,7 +49,7 @@ function Login(props) {
       3000,
       true
     );
-    navigate("/");
+    navigate(-1);
   };
 
   const setUpRecaptcha = () => {
@@ -141,7 +141,6 @@ function Login(props) {
               api
                 .post("/login", { idToken })
                 .then((response) => {
-                  console.log("response", response);
 
                   dispatch(setAccessToken(user.accessToken));
                   localStorage.setItem("isUserLoggedIn", true);
@@ -160,7 +159,7 @@ function Login(props) {
                     true
                   );
 
-                  navigate("/");
+                  navigate(-1);
                 })
                 .catch((error) => {
                   console.log("error", error);

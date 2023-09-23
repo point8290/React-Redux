@@ -17,7 +17,7 @@ import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 import { FaFirstOrder } from "react-icons/fa";
 import Container from "react-bootstrap/Container";
 import Offcanvas from "react-bootstrap/Offcanvas";
-
+import { emptyCart } from "../features/cart/cartSlice";
 function Header(props) {
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
@@ -26,11 +26,10 @@ function Header(props) {
   const onLogout = () => {
     signOut(auth)
       .then((response) => {
-        console.log("response", response);
         dispatch(setAccessToken(null));
         localStorage.setItem("isUserLoggedIn", false);
         globalContext.setIsUserLoggedIn(false);
-
+        dispatch(emptyCart());
         navigate("/");
       })
       .catch((error) => {
@@ -49,6 +48,8 @@ function Header(props) {
     globalContext.setShowRegisterPopup(true);
   };
   const onProfile = () => {};
+  const onOrders = () => {};
+
   const hideLoginButton = globalContext.isUserLoggedIn ? styles.hide : "";
   const hideRegisterButton = globalContext.isUserLoggedIn ? styles.hide : "";
 
@@ -95,10 +96,7 @@ function Header(props) {
               <Offcanvas.Title>Bourbon Cafe</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body className={styles.offcanvasBody}>
-              <Nav
-                style={{ alignItems: "flex-start" }}
-                className="flex-grow-1 pe-3"
-              >
+              <Nav className="flex-grow-1 pe-3">
                 <Button
                   onClick={(e) => {
                     navigate("/");
@@ -131,7 +129,7 @@ function Header(props) {
                 <Button
                   className={`bg-transparent ${styles.buttonBackground} ${showAfterLoginButtons}`}
                   variant=""
-                  onClick={onProfile}
+                  onClick={onOrders}
                 >
                   <FaFirstOrder /> <span> Orders</span>
                 </Button>

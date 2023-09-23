@@ -29,10 +29,12 @@ function CartDetail(props) {
       console.log("error", error);
     }
   }, [stripeToken]);
-
+  const onLogin = () => {
+    globalContext.setShowRegisterPopup(false);
+    globalContext.setShowLoginPopup(true);
+  };
   const dispatch = useDispatch();
   const key = process.env.REACT_APP_STRIPE;
-  console.log("key", key);
   return (
     <Card className={styles.cartCard}>
       <Card.Body>
@@ -67,20 +69,30 @@ function CartDetail(props) {
         </div>
       </Card.Body>
       <div className={styles.checkoutButtonContainer}>
-        <StripeCheckout
-          name="Bourbon Cafe"
-          amount={props.grossTotal * 100}
-          currency="INR"
-          billingAddress
-          shippingAddress={false}
-          token={onToken}
-          stripeKey={key}
-          description={`Your total amount is ${props.grossTotal}`}
-        >
-          <Button className={styles.checkoutButton} variant="success">
-            Checkout
+        {globalContext.isUserLoggedIn ? (
+          <StripeCheckout
+            name="Bourbon Cafe"
+            amount={props.grossTotal * 100}
+            currency="INR"
+            billingAddress
+            shippingAddress={false}
+            token={onToken}
+            stripeKey={key}
+            description={`Your total amount is ${props.grossTotal}`}
+          >
+            <Button className={styles.checkoutButton} variant="success">
+              Proceed to checkout
+            </Button>
+          </StripeCheckout>
+        ) : (
+          <Button
+            onClick={onLogin}
+            className={styles.checkoutButton}
+            variant="success"
+          >
+            Proceed to checkout
           </Button>
-        </StripeCheckout>
+        )}
       </div>
     </Card>
   );

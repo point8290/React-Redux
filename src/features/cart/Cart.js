@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import CartItem from "../../wrapper/CartItem/CartItem";
 import styles from "./Cart.module.css";
 import CartDetail from "./CartDetail";
+import { AppContext } from "../../context/AppContextProvider";
 
 const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
@@ -11,7 +12,7 @@ const Cart = (props) => {
     totalQuantity: 0,
     grossTotal: 0,
   });
-
+  const globalContext = useContext(AppContext);
   const cartProducts =
     cart.cartCount === 0 ? (
       <div
@@ -58,11 +59,13 @@ const Cart = (props) => {
   return (
     <div className={styles.cartContainer}>
       <div className={styles.cartProductContainer}>{cartProducts}</div>
-      <div style={{ width: "60%" }}>
-        <div className={styles.cartDetailsContainer}>
-          <CartDetail {...cartData} />
+      {cart.cartCount > 0 && (
+        <div style={{ width: "60%" }}>
+          <div className={styles.cartDetailsContainer}>
+            <CartDetail {...cartData} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
