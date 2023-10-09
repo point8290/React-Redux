@@ -1,7 +1,6 @@
 import Card from "react-bootstrap/Card";
 import styles from "./CartDetail.module.css";
 import Button from "react-bootstrap/esm/Button";
-import Form from "react-bootstrap/Form";
 import { useSelector, useDispatch } from "react-redux";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContextProvider";
