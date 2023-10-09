@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   cartProducts: [],
   cartCount: 0,
-  includeCutlery: false,
 };
 
 export const cartSlice = createSlice({
@@ -42,19 +41,16 @@ export const cartSlice = createSlice({
           (product) => product.product._id === action.payload
         );
         if (indexToBeRemoved !== -1) {
-          state.cartProducts.slice(indexToBeRemoved, 1);
+          state.cartProducts.splice(indexToBeRemoved, 1);
         }
       }
 
       state.cartCount = state.cartCount - 1;
     },
-    setIncludeCutlery: (state, action) => {
-      state.includeCutlery = action.payload;
-    },
+   
     emptyCart: (state, action) => {
       state.cartProducts = [];
       state.cartCount = 0;
-      state.includeCutlery = false;
     },
   },
 });
@@ -63,7 +59,6 @@ export const {
   addProduct,
   increaseProductCount,
   decreaseProductCount,
-  setIncludeCutlery,
   emptyCart,
 } = cartSlice.actions;
 

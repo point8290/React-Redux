@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import { useSelector, useDispatch } from "react-redux";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContextProvider";
-import { setIncludeCutlery } from "./cartSlice";
 import StripeCheckout from "react-stripe-checkout";
 import api from "../../api/payment";
 import { useNavigate } from "react-router-dom";
@@ -91,19 +90,6 @@ function CartDetail(props) {
         </div>
         <div>
           <strong> Gross Total : </strong> <span> ₹{props.grossTotal}</span>
-        </div>
-        <div>
-          <Form>
-            <Form.Check
-              checked={cart.includeCutlery}
-              type="switch"
-              id="cutlery-switch"
-              label="Include cutlery"
-              onChange={() => {
-                dispatch(setIncludeCutlery(!cart.includeCutlery));
-              }}
-            />
-          </Form>
         </div>
       </Card.Body>
       <div className={styles.checkoutButtonContainer}>
