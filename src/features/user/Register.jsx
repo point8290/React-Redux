@@ -11,7 +11,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { loginWithGoogle } from "./googleAuthentication";
 import { useDispatch } from "react-redux";
-import { setAccessToken } from "./userSlice";
+import { setAccessToken, setUser } from "./userSlice";
 import ReactDOM from "react-dom";
 
 function Register() {
@@ -27,17 +27,20 @@ function Register() {
     globalContext.setShowRegisterPopup(false);
   };
 
-  const loginWithGoogleCallback = (token) => {
-    if (token) {
+  const loginWithGoogleCallback = ({ token, user }) => {
+    if (token && user) {
+      dispatch(setUser(user));
       dispatch(setAccessToken(token));
       localStorage.setItem("isUserLoggedIn", true);
       globalContext.setIsUserLoggedIn(true);
     } else {
+      dispatch(setUser(null));
       dispatch(setAccessToken(null));
       localStorage.setItem("isUserLoggedIn", false);
       globalContext.setIsUserLoggedIn(false);
     }
     globalContext.setShowRegisterPopup(false);
+    globalContext.setIsUserLoggedIn(false);
 
     globalContext.showToastMessage(
       true,

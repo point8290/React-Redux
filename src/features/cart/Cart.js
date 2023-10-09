@@ -4,7 +4,6 @@ import { useState } from "react";
 import CartItem from "../../wrapper/CartItem/CartItem";
 import styles from "./Cart.module.css";
 import CartDetail from "./CartDetail";
-import { AppContext } from "../../context/AppContextProvider";
 
 const Cart = (props) => {
   const cart = useSelector((state) => state.cart);

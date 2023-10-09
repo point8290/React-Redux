@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styles from "./Login.module.css";
 import api from "../../api/user";
-import { setAccessToken } from "./userSlice";
+import { setAccessToken, setUser } from "./userSlice";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContextProvider";
 import {
@@ -35,21 +35,40 @@ function Login(props) {
   const globalContext = useContext(AppContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loginWithGoogleCallback = (token) => {
-    dispatch(setAccessToken(token));
-    localStorage.setItem("isUserLoggedIn", true);
-    globalContext.setIsUserLoggedIn(true);
-    globalContext.setShowLoginPopup(false);
 
-    globalContext.showToastMessage(
-      true,
-      "Signed In Successfully !!",
-      "success",
-      true,
-      3000,
-      true
-    );
-    navigate(-1);
+  const loginWithGoogleCallback = (data) => {
+    const { token, user } = data;
+    if (token & user) {
+      dispatch(setUser(user));
+      dispatch(setAccessToken(token));
+      localStorage.setItem("isUserLoggedIn", true);
+      globalContext.setIsUserLoggedIn(false);
+      globalContext.setShowLoginPopup(false);
+
+      globalContext.showToastMessage(
+        true,
+        "Signed In Successfully !!",
+        "success",
+        true,
+        3000,
+        true
+      );
+    } else {
+      dispatch(setUser(null));
+      dispatch(setAccessToken(null));
+      localStorage.setItem("isUserLoggedIn", false);
+      globalContext.setIsUserLoggedIn(false);
+      globalContext.setShowLoginPopup(false);
+      globalContext.showToastMessage(
+        true,
+        "Error in logging in !!",
+        "error",
+        true,
+        3000,
+        true
+      );
+      navigate(-1);
+    }
   };
 
   const setUpRecaptcha = () => {
@@ -57,9 +76,7 @@ function Login(props) {
       auth,
       "recaptcha-container",
       {
-        callback: (response) => {
-          recaptchaVerifier.clear();
-        },
+        size: "invisible",
       }
     );
 
@@ -73,6 +90,50 @@ function Login(props) {
     finalResult
       .confirm(otp)
       .then((result) => {
+        const user = result.user.toJSON();
+
+        const firebaseUser = {
+          phone: user.phoneNumber,
+          uid: user.uid,
+        };
+        api
+          .post("/phone", { firebaseUser })
+          .then(async (response) => {
+            const user = response.data.user;
+            const token = result._tokenResponse.idToken;
+
+            dispatch(setUser(user));
+            dispatch(setAccessToken(token));
+            localStorage.setItem("isUserLoggedIn", true);
+            globalContext.setIsUserLoggedIn(true);
+            globalContext.setShowLoginPopup(false);
+
+            globalContext.showToastMessage(
+              true,
+              "Signed In Successfully !!",
+              "success",
+              true,
+              3000,
+              true
+            );
+            navigate(-1);
+          })
+          .catch((error) => {
+            dispatch(setUser(null));
+            dispatch(setAccessToken(null));
+            localStorage.setItem("isUserLoggedIn", false);
+            globalContext.setIsUserLoggedIn(false);
+            globalContext.setShowLoginPopup(false);
+            globalContext.showToastMessage(
+              true,
+              "Error in logging in !!",
+              "error",
+              true,
+              3000,
+              true
+            );
+            navigate(-1);
+          });
         console.log(result);
       })
       .catch((err) => {
@@ -141,7 +202,7 @@ function Login(props) {
               api
                 .post("/login", { idToken })
                 .then((response) => {
-
+                  dispatch(setUser(user));
                   dispatch(setAccessToken(user.accessToken));
                   localStorage.setItem("isUserLoggedIn", true);
                   globalContext.setIsUserLoggedIn(true);
@@ -163,6 +224,7 @@ function Login(props) {
                 })
                 .catch((error) => {
                   console.log("error", error);
+                  dispatch(setUser(null));
                   dispatch(setAccessToken(null));
                   localStorage.setItem("isUserLoggedIn", false);
                   globalContext.setIsUserLoggedIn(false);
@@ -185,6 +247,7 @@ function Login(props) {
       }
     } catch (error) {
       console.log("error", error);
+      dispatch(setUser(null));
       dispatch(setAccessToken(null));
       localStorage.setItem("isUserLoggedIn", false);
       globalContext.setIsUserLoggedIn(false);

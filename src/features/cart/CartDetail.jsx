@@ -8,14 +8,40 @@ import { AppContext } from "../../context/AppContextProvider";
 import { setIncludeCutlery } from "./cartSlice";
 import StripeCheckout from "react-stripe-checkout";
 import api from "../../api/payment";
+import { useNavigate } from "react-router-dom";
+import { emptyCart } from "../cart/cartSlice";
+import orderApi from "../../api/order";
+
 function CartDetail(props) {
   const globalContext = useContext(AppContext);
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const [stripeToken, setStripeToken] = useState();
+  const navigate = useNavigate();
   const onToken = (token) => {
     setStripeToken(token);
   };
+
   useEffect(() => {
+    const createOrder = async (data) => {
+      const products = [];
+      const currentUser = user.user;
+      cart.cartProducts.map((product) =>
+        products.push({
+          productId: product.product._id,
+          quantity: product.count,
+        })
+      );
+
+      return orderApi.post("/", {
+        userId: currentUser.uid,
+        products,
+        amount: data.amount,
+      });
+    };
+
     try {
       const makeRequest = () => {
         api
@@ -23,8 +49,14 @@ function CartDetail(props) {
             tokenId: stripeToken.id,
             amount: props.grossTotal,
           })
-          .then((response) => {
-            console.log("response.data", response.data);
+          .then(async (response) => {
+            const order = await createOrder(response.data?.response);
+            console.log(order);
+            navigate("/order", {
+              state: { order: order.data, products: cart.cartProducts },
+            });
+
+            dispatch(emptyCart());
           })
           .catch((error) => {
             console.log("error", error);
@@ -35,12 +67,12 @@ function CartDetail(props) {
       console.log("error", error);
     }
   }, [stripeToken]);
+
   const onLogin = () => {
     globalContext.setShowRegisterPopup(false);
     globalContext.setShowLoginPopup(true);
   };
-  const dispatch = useDispatch();
-  const key = process.env.REACT_APP_STRIPE;
+
   return (
     <Card className={styles.cartCard}>
       <Card.Body>
@@ -83,7 +115,7 @@ function CartDetail(props) {
             billingAddress
             shippingAddress={false}
             token={onToken}
-            stripeKey={key}
+            stripeKey={process.env.REACT_APP_STRIPE}
             description={`Your total amount is ${props.grossTotal}`}
           >
             <Button className={styles.checkoutButton} variant="success">

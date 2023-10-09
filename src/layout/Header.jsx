@@ -12,7 +12,7 @@ import { signOut } from "firebase/auth";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContextProvider";
-import { setAccessToken } from "../features/user/userSlice";
+import { setAccessToken, setUser } from "../features/user/userSlice";
 import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 import { FaFirstOrder } from "react-icons/fa";
 import Container from "react-bootstrap/Container";
@@ -26,6 +26,8 @@ function Header(props) {
   const onLogout = () => {
     signOut(auth)
       .then((response) => {
+        dispatch(setUser(null));
+
         dispatch(setAccessToken(null));
         localStorage.setItem("isUserLoggedIn", false);
         globalContext.setIsUserLoggedIn(false);

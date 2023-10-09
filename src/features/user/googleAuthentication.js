@@ -17,7 +17,7 @@ export const loginWithGoogle = (callback) => {
         api
           .post("/google", { firebaseUser })
           .then((response) => {
-            callback(token);
+            callback({ token, user: response.data.user });
           })
           .catch((error) => {
             callback();
